@@ -20,20 +20,25 @@
     var CONFIG = {"hostname":"ljwkyanm.xyz","root":"/","scheme":"Muse","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="###MySQL： Mysql的InnoDB引擎索引采用B+树的类型，所有的主键索引可以直接通过B+树找到对应，非主键索引需要通过一次B+树找到主键，然后再通过主键索引找到对应。  ###B树概念： 1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则； （2）子节点数：非叶节点的子节点数&gt;1，且&lt;&#x3D;M ，且M&gt;&#x3D;2，空树除外（注：M阶代表一个树节点最多有多少个查找路">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://ljwkyanm.xyz/2020/02/11/hello-world/index.html">
+<meta property="og:title" content="mysql-InnoDB索引">
+<meta property="og:url" content="https://ljwkyanm.xyz/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/index.html">
 <meta property="og:site_name" content="xixing&#39;s blogs">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="###MySQL： Mysql的InnoDB引擎索引采用B+树的类型，所有的主键索引可以直接通过B+树找到对应，非主键索引需要通过一次B+树找到主键，然后再通过主键索引找到对应。  ###B树概念： 1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则； （2）子节点数：非叶节点的子节点数&gt;1，且&lt;&#x3D;M ，且M&gt;&#x3D;2，空树除外（注：M阶代表一个树节点最多有多少个查找路">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-02-11T09:07:41.223Z">
-<meta property="article:modified_time" content="2020-02-11T11:13:29.714Z">
+<meta property="og:image" content="c:%5CUsers%5Cxixingya%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200224101527925.png">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-2c2264cc1c6c603dfeca4f84a2575901_hd.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7862980-42f0acde88d3c0cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp">
+<meta property="article:published_time" content="2020-02-24T02:11:30.000Z">
+<meta property="article:modified_time" content="2020-02-24T02:24:38.653Z">
 <meta property="article:author" content="xixing">
-<meta property="article:tag" content="系统自动创建页">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="B+树">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:%5CUsers%5Cxixingya%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200224101527925.png">
 
-<link rel="canonical" href="https://ljwkyanm.xyz/2020/02/11/hello-world/">
+<link rel="canonical" href="https://ljwkyanm.xyz/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/">
 
 
 <script id="page-configurations">
@@ -45,7 +50,7 @@
   };
 </script>
 
-  <title>Hello World | xixing's blogs</title>
+  <title>mysql-InnoDB索引 | xixing's blogs</title>
   
 
 
@@ -154,7 +159,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/02/11/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -167,7 +172,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          mysql-InnoDB索引
         </h1>
 
         <div class="post-meta">
@@ -178,7 +183,18 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-11 17:07:41 / Modified: 19:13:29" itemprop="dateCreated datePublished" datetime="2020-02-11T17:07:41+08:00">2020-02-11</time>
+              <time title="Created: 2020-02-24 10:11:30 / Modified: 10:24:38" itemprop="dateCreated datePublished" datetime="2020-02-24T10:11:30+08:00">2020-02-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -190,8 +206,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2020/02/11/hello-world/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/11/hello-world/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -201,7 +217,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>357</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -220,19 +236,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>###MySQL：</p>
+<p>Mysql的InnoDB引擎索引采用B+树的类型，所有的主键索引可以直接通过B+树找到对应，非主键索引需要通过一次B+树找到主键，然后再通过主键索引找到对应。</p>
+<p><img src="C:%5CUsers%5Cxixingya%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200224101527925.png" alt="image-20200224101527925"></p>
+<p>###B树概念：</p>
+<p>1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则；</p>
+<p>（2）子节点数：非叶节点的子节点数&gt;1，且&lt;=M ，且M&gt;=2，空树除外（注：M阶代表一个树节点最多有多少个查找路径，M=M路,当M=2则是2叉树,M=3则是3叉）；</p>
+<p>（3）关键字数：枝节点的关键字数量大于等于ceil(m/2)-1个且小于等于M-1个（注：ceil()是个朝正无穷方向取整的函数 如ceil(1.1)结果为2);</p>
+<p>（4）所有叶子节点均在同一层、叶子节点除了包含了关键字和关键字记录的指针外也有指向其子节点的指针只不过其指针地址都为null对应下图最后一层节点的空格子;</p>
+<p>最后我们用一个图和一个实际的例子来理解B树（这里为了理解方便我就直接用实际字母的大小来排列C&gt;B&gt;A）</p>
+<p><img src="https://pic2.zhimg.com/80/v2-2c2264cc1c6c603dfeca4f84a2575901_hd.jpg" alt="img"></p>
+<ul>
+<li><strong>B树的查询流程：</strong></li>
+</ul>
+<p>如上图我要从上图中找到E字母，查找流程如下</p>
+<p>（1）获取根节点的关键字进行比较，当前根节点关键字为M，E&lt;M（26个字母顺序），所以往找到指向左边的子节点（二分法规则，左小右大，左边放小于当前节点值的子节点、右边放大于当前节点值的子节点）；</p>
+<p>（2）拿到关键字D和G，D&lt;E&lt;G 所以直接找到D和G中间的节点；</p>
+<p>（3）拿到E和F，因为E=E 所以直接返回关键字和指针信息（如果树结构里面没有包含所要查找的节点则返回null）；</p>
+<h3 id="B-树概念："><a href="#B-树概念：" class="headerlink" title="B+树概念："></a>B+树概念：</h3><p>相对于B树，B＋树只有在叶子节点才是data，非叶子节点只具有索引作用。</p>
+<p>每个叶子节点都有一个指针，指向下一个数据，形成一个有序链表。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7862980-42f0acde88d3c0cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="img"></p>
+<ul>
+<li><strong>特点</strong></li>
+</ul>
+<p>1、B+<strong>树的层级更少</strong>：相较于B树B+每个<strong>非叶子</strong>节点存储的关键字数更多，树的层级更少所以查询数据更快；</p>
+<p>2、B+<strong>树查询速度更稳定</strong>：B+所有关键字数据地址都存在<strong>叶子</strong>节点上，所以每次查找的次数都相同所以查询速度要比B树更稳定;</p>
+<p>3、B+<strong>树天然具备排序功能：</strong>B+树所有的<strong>叶子</strong>节点数据构成了一个有序链表，在查询大小区间的数据时候更方便，数据紧密性很高，缓存的命中率也会比B树高。</p>
+<p>4、B+<strong>树全节点遍历更快：</strong>B+树遍历整棵树只需要遍历所有的<strong>叶子</strong>节点即可，，而不需要像B树一样需要对每一层进行遍历，这有利于数据库做全表扫描。</p>
+<p><strong>B树</strong>相对于<strong>B+树</strong>的优点是，如果经常访问的数据离根节点很近，而<strong>B树</strong>的<strong>非叶子</strong>节点本身存有关键字其数据的地址，所以这种数据检索的时候会要比<strong>B+树</strong>快。</p>
+<p>本文参考简书：<a href="https://www.jianshu.com/p/71700a464e97" target="_blank" rel="noopener">https://www.jianshu.com/p/71700a464e97</a></p>
+<p>参考知乎专栏：<a href="https://zhuanlan.zhihu.com/p/27700617" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27700617</a></p>
 
     </div>
 
@@ -242,7 +275,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E9%A1%B5/" rel="tag"># 系统自动创建页</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+              <a href="/tags/B-%E6%A0%91/" rel="tag"># B+树</a>
           </div>
 
         
@@ -250,11 +284,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/02/11/leetcode%E7%AC%AC220%E9%A2%98/" rel="next" title="leetcode第220题">
-      leetcode第220题 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/02/21/42%E9%A2%98%E7%9B%9B%E9%9B%A8%E6%B0%B4%E9%97%AE%E9%A2%98/" rel="prev" title="42题盛雨水问题">
+      <i class="fa fa-chevron-left"></i> 42题盛雨水问题
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -315,7 +349,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-树概念："><span class="nav-number">1.</span> <span class="nav-text">B+树概念：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
