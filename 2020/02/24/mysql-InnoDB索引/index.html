@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="xixing&#39;s blogs">
 <meta property="og:description" content="###MySQL： Mysql的InnoDB引擎索引采用B+树的类型，所有的主键索引可以直接通过B+树找到对应，非主键索引需要通过一次B+树找到主键，然后再通过主键索引找到对应。  ###B树概念： 1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则； （2）子节点数：非叶节点的子节点数&gt;1，且&lt;&#x3D;M ，且M&gt;&#x3D;2，空树除外（注：M阶代表一个树节点最多有多少个查找路">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="c:%5CUsers%5Cxixingya%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200224101527925.png">
+<meta property="og:image" content="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/VGXJ%60HJ7RCAZFK0H%5B%7E69%7DOX.png">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-2c2264cc1c6c603dfeca4f84a2575901_hd.jpg">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7862980-42f0acde88d3c0cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp">
+<meta property="og:image" content="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/BOIV%5BQ%5B%293%5BF%5D%2869%24O5%5BYT31.png">
 <meta property="article:published_time" content="2020-02-24T02:11:30.000Z">
-<meta property="article:modified_time" content="2020-02-24T02:24:38.653Z">
+<meta property="article:modified_time" content="2020-02-24T03:00:05.963Z">
 <meta property="article:author" content="xixing">
 <meta property="article:tag" content="mysql">
 <meta property="article:tag" content="B+树">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:%5CUsers%5Cxixingya%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200224101527925.png">
+<meta name="twitter:image" content="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/VGXJ%60HJ7RCAZFK0H%5B%7E69%7DOX.png">
 
 <link rel="canonical" href="https://ljwkyanm.xyz/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/">
 
@@ -183,7 +183,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-24 10:11:30 / Modified: 10:24:38" itemprop="dateCreated datePublished" datetime="2020-02-24T10:11:30+08:00">2020-02-24</time>
+              <time title="Created: 2020-02-24 10:11:30 / Modified: 11:00:05" itemprop="dateCreated datePublished" datetime="2020-02-24T10:11:30+08:00">2020-02-24</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,7 +238,7 @@
       
         <p>###MySQL：</p>
 <p>Mysql的InnoDB引擎索引采用B+树的类型，所有的主键索引可以直接通过B+树找到对应，非主键索引需要通过一次B+树找到主键，然后再通过主键索引找到对应。</p>
-<p><img src="C:%5CUsers%5Cxixingya%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200224101527925.png" alt="image-20200224101527925"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/VGXJ%60HJ7RCAZFK0H%5B%7E69%7DOX.png" alt="image-20200224101527925"></p>
 <p>###B树概念：</p>
 <p>1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则；</p>
 <p>（2）子节点数：非叶节点的子节点数&gt;1，且&lt;=M ，且M&gt;=2，空树除外（注：M阶代表一个树节点最多有多少个查找路径，M=M路,当M=2则是2叉树,M=3则是3叉）；</p>
@@ -255,7 +255,7 @@
 <p>（3）拿到E和F，因为E=E 所以直接返回关键字和指针信息（如果树结构里面没有包含所要查找的节点则返回null）；</p>
 <h3 id="B-树概念："><a href="#B-树概念：" class="headerlink" title="B+树概念："></a>B+树概念：</h3><p>相对于B树，B＋树只有在叶子节点才是data，非叶子节点只具有索引作用。</p>
 <p>每个叶子节点都有一个指针，指向下一个数据，形成一个有序链表。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/7862980-42f0acde88d3c0cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="img"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/BOIV%5BQ%5B%293%5BF%5D%2869%24O5%5BYT31.png" alt="img"></p>
 <ul>
 <li><strong>特点</strong></li>
 </ul>
