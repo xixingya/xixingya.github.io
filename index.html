@@ -285,7 +285,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-26 10:11:24" itemprop="dateModified" datetime="2020-02-26T10:11:24+08:00">2020-02-26</time>
+                <time title="Modified: 2020-02-26 10:13:36" itemprop="dateModified" datetime="2020-02-26T10:13:36+08:00">2020-02-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -340,8 +340,7 @@
       
           <h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL:"></a>MySQL:</h3><p>Mysql的InnoDB引擎索引采用B+树的类型，所有的主键索引可以直接通过B+树找到对应，非主键索引需要通过一次B+树找到主键，然后再通过主键索引找到对应。</p>
 <p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/VGXJ%60HJ7RCAZFK0H%5B%7E69%7DOX.png" alt="image-20200224101527925"></p>
-<p>###B树概念：</p>
-<p>1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则；</p>
+<h3 id="B树概念："><a href="#B树概念：" class="headerlink" title="B树概念："></a>B树概念：</h3><p>1）排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则；</p>
 <p>（2）子节点数：非叶节点的子节点数&gt;1，且&lt;=M ，且M&gt;=2，空树除外（注：M阶代表一个树节点最多有多少个查找路径，M=M路,当M=2则是2叉树,M=3则是3叉）；</p>
 <p>（3）关键字数：枝节点的关键字数量大于等于ceil(m/2)-1个且小于等于M-1个（注：ceil()是个朝正无穷方向取整的函数 如ceil(1.1)结果为2);</p>
 <p>（4）所有叶子节点均在同一层、叶子节点除了包含了关键字和关键字记录的指针外也有指向其子节点的指针只不过其指针地址都为null对应下图最后一层节点的空格子;</p>
