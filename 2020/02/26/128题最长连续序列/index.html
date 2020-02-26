@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"ljwkyanm.xyz","root":"/","scheme":"Muse","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="答案123456789101112131415161718192021222324&#x2F;** * @author xixing * @version 1.0 * @date 2020&#x2F;2&#x2F;20 17:02 *&#x2F;public class N11 &amp;#123;    public int maxArea(int[] height) &amp;#123;        int area&#x3D;0;        int">
+  <meta name="description" content="###解法 利用哈希表插入和查找都是O(1)的时间复杂度，把数组的数先插入哈希表，去除了重复元素。O(n) 再对HashSet里面的数，如果这个数减一不在这个表里面，那么把它当成开始元素，记录有多少个连续。O(n) O(n)+O(n)&#x3D;O(n) 代码123456789101112131415161718192021222324252627282930&#x2F;** * @author xixing * @">
 <meta property="og:type" content="article">
-<meta property="og:title" content="11题，盛最多水容器">
-<meta property="og:url" content="https://ljwkyanm.xyz/2020/02/20/11%E9%A2%98%EF%BC%8C%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:title" content="128题最长连续序列">
+<meta property="og:url" content="https://ljwkyanm.xyz/2020/02/26/128%E9%A2%98%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/index.html">
 <meta property="og:site_name" content="xixing&#39;s blogs">
-<meta property="og:description" content="答案123456789101112131415161718192021222324&#x2F;** * @author xixing * @version 1.0 * @date 2020&#x2F;2&#x2F;20 17:02 *&#x2F;public class N11 &amp;#123;    public int maxArea(int[] height) &amp;#123;        int area&#x3D;0;        int">
+<meta property="og:description" content="###解法 利用哈希表插入和查找都是O(1)的时间复杂度，把数组的数先插入哈希表，去除了重复元素。O(n) 再对HashSet里面的数，如果这个数减一不在这个表里面，那么把它当成开始元素，记录有多少个连续。O(n) O(n)+O(n)&#x3D;O(n) 代码123456789101112131415161718192021222324252627282930&#x2F;** * @author xixing * @">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-02-20T09:11:53.000Z">
-<meta property="article:modified_time" content="2020-02-20T09:15:45.093Z">
+<meta property="article:published_time" content="2020-02-26T01:55:33.000Z">
+<meta property="article:modified_time" content="2020-02-26T02:02:39.880Z">
 <meta property="article:author" content="xixing">
 <meta property="article:tag" content="java">
-<meta property="article:tag" content="双向链表">
+<meta property="article:tag" content="HashSet">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ljwkyanm.xyz/2020/02/20/11%E9%A2%98%EF%BC%8C%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E5%AE%B9%E5%99%A8/">
+<link rel="canonical" href="https://ljwkyanm.xyz/2020/02/26/128%E9%A2%98%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>11题，盛最多水容器 | xixing's blogs</title>
+  <title>128题最长连续序列 | xixing's blogs</title>
   
 
 
@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/02/20/11%E9%A2%98%EF%BC%8C%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E5%AE%B9%E5%99%A8/">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/02/26/128%E9%A2%98%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -168,7 +168,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          11题，盛最多水容器
+          128题最长连续序列
         </h1>
 
         <div class="post-meta">
@@ -179,7 +179,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-20 17:11:53 / Modified: 17:15:45" itemprop="dateCreated datePublished" datetime="2020-02-20T17:11:53+08:00">2020-02-20</time>
+              <time title="Created: 2020-02-26 09:55:33 / Modified: 10:02:39" itemprop="dateCreated datePublished" datetime="2020-02-26T09:55:33+08:00">2020-02-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -202,8 +202,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2020/02/20/11%E9%A2%98%EF%BC%8C%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E5%AE%B9%E5%99%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/20/11%E9%A2%98%EF%BC%8C%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E5%AE%B9%E5%99%A8/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/02/26/128%E9%A2%98%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/26/128%E9%A2%98%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -213,7 +213,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>437</span>
+              <span>628</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -232,9 +232,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/2/20 17:02</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">N11</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxArea</span><span class="params">(<span class="keyword">int</span>[] height)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> area=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>,j=height.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (i!=j)&#123;</span><br><span class="line">            <span class="keyword">if</span>(height[i]&gt;height[j])&#123;</span><br><span class="line">                <span class="keyword">int</span> temp=(j-i)*height[j];</span><br><span class="line">                j--;</span><br><span class="line">                area=Math.max(temp,area);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> temp=(j-i)*height[i];</span><br><span class="line">                i++;</span><br><span class="line">                area=Math.max(temp,area);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>###解法</p>
+<p>利用哈希表插入和查找都是O(1)的时间复杂度，把数组的数先插入哈希表，去除了重复元素。O(n)</p>
+<p>再对HashSet里面的数，如果这个数减一不在这个表里面，那么把它当成开始元素，记录有多少个连续。O(n)</p>
+<p>O(n)+O(n)=O(n)</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/2/26 9:44</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">N128</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestConsecutive</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> longest=<span class="number">0</span>;</span><br><span class="line">        Set&lt;Integer&gt; set=<span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums)&#123;</span><br><span class="line">            set.add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:set)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!set.contains(num-<span class="number">1</span>))&#123;</span><br><span class="line">                <span class="keyword">int</span> currentNum=num;</span><br><span class="line">                <span class="keyword">int</span> countNum=<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">while</span> (set.contains(currentNum+<span class="number">1</span>))&#123;</span><br><span class="line">                    currentNum+=<span class="number">1</span>;</span><br><span class="line">                    countNum+=<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                longest=Math.max(countNum,longest);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> longest;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>双向链表，由于水的盛水容量是由短板决定的，所以哪边是短板就移动，这样才有可能使得盛水容量变大。</p>
+<p><a href="https://leetcode-cn.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener">128.最长连续序列</a></p>
 
     </div>
 
@@ -245,7 +249,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/java/" rel="tag"># java</a>
-              <a href="/tags/%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" rel="tag"># 双向链表</a>
+              <a href="/tags/HashSet/" rel="tag"># HashSet</a>
           </div>
 
         
@@ -254,13 +258,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/19/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B1%82%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98/" rel="prev" title="动态规划求股票问题">
-      <i class="fa fa-chevron-left"></i> 动态规划求股票问题
+    <a href="/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/" rel="prev" title="mysql-InnoDB索引">
+      <i class="fa fa-chevron-left"></i> mysql-InnoDB索引
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/21/42%E9%A2%98%E7%9B%9B%E9%9B%A8%E6%B0%B4%E9%97%AE%E9%A2%98/" rel="next" title="42题盛雨水问题">
-      42题盛雨水问题 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -321,7 +322,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#答案"><span class="nav-number">1.</span> <span class="nav-text">答案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题解"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">1.</span> <span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
