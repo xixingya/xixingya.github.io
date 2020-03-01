@@ -20,17 +20,20 @@
     var CONFIG = {"hostname":"ljwkyanm.xyz","root":"/","scheme":"Muse","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Mind and Hand">
-<meta property="og:type" content="website">
-<meta property="og:title" content="xixing&#39;s blogs">
-<meta property="og:url" content="https://ljwkyanm.xyz/tags/mysql/index.html">
+  <meta name="description" content="count(*)会统计为null的字段，count(1)和count(列名)不会统计该列为null的字段 查询速度count(主键)&gt;count(1)&gt;count(*) distinct count(*)返回不重复且不含null的值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的count(1)和count(*)和count(列名)的区别">
+<meta property="og:url" content="https://ljwkyanm.xyz/2020/03/01/MySQL%E7%9A%84count-1-%E5%92%8Ccount-%E5%92%8Ccount-%E5%88%97%E5%90%8D-%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="xixing&#39;s blogs">
-<meta property="og:description" content="Mind and Hand">
+<meta property="og:description" content="count(*)会统计为null的字段，count(1)和count(列名)不会统计该列为null的字段 查询速度count(主键)&gt;count(1)&gt;count(*) distinct count(*)返回不重复且不含null的值">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-01T02:21:59.000Z">
+<meta property="article:modified_time" content="2020-03-01T02:40:48.525Z">
 <meta property="article:author" content="xixing">
+<meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ljwkyanm.xyz/tags/mysql/">
+<link rel="canonical" href="https://ljwkyanm.xyz/2020/03/01/MySQL%E7%9A%84count-1-%E5%92%8Ccount-%E5%92%8Ccount-%E5%88%97%E5%90%8D-%E7%9A%84%E5%8C%BA%E5%88%AB/">
 
 
 <script id="page-configurations">
@@ -38,11 +41,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>Tag: mysql | xixing's blogs</title>
+  <title>MySQL的count(1)和count(*)和count(列名)的区别 | xixing's blogs</title>
   
 
 
@@ -146,74 +149,127 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">mysql
-          <small>Tag</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/03/01/MySQL%E7%9A%84count-1-%E5%92%8Ccount-%E5%92%8Ccount-%E5%88%97%E5%90%8D-%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL的count(1)和count(*)和count(列名)的区别
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-01 10:21:59 / Modified: 10:40:48" itemprop="dateCreated datePublished" datetime="2020-03-01T10:21:59+08:00">2020-03-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sql/" itemprop="url" rel="index">
+                    <span itemprop="name">sql</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/03/01/MySQL%E7%9A%84count-1-%E5%92%8Ccount-%E5%92%8Ccount-%E5%88%97%E5%90%8D-%E7%9A%84%E5%8C%BA%E5%88%AB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/01/MySQL%E7%9A%84count-1-%E5%92%8Ccount-%E5%92%8Ccount-%E5%88%97%E5%90%8D-%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>119</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-03-01T10:21:59+08:00"
-              content="2020-03-01">
-          03-01
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/03/01/MySQL%E7%9A%84count-1-%E5%92%8Ccount-%E5%92%8Ccount-%E5%88%97%E5%90%8D-%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="url">
-            <span itemprop="name">MySQL的count(1)和count(*)和count(列名)的区别</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-24T10:11:30+08:00"
-              content="2020-02-24">
-          02-24
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/24/mysql-InnoDB%E7%B4%A2%E5%BC%95/" itemprop="url">
-            <span itemprop="name">mysql-InnoDB索引</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
+        <p>count(*)会统计为null的字段，count(1)和count(列名)不会统计该列为null的字段</p>
+<p>查询速度count(主键)&gt;count(1)&gt;count(*)</p>
+<p>distinct count(*)返回不重复且不含null的值</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/26/128%E9%A2%98%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" rel="prev" title="128题最长连续序列">
+      <i class="fa fa-chevron-left"></i> 128题最长连续序列
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
