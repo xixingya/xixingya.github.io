@@ -151,7 +151,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/06/01/ArrayList%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/02/%E9%9B%86%E5%90%88%E7%B1%BB%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -165,7 +165,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/01/ArrayList%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">ArrayList的扩容机制</a>
+            <a href="/2020/07/02/%E9%9B%86%E5%90%88%E7%B1%BB%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">集合类线程不安全问题</a>
         </h1>
 
         <div class="post-meta">
@@ -176,7 +176,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-06-01 16:20:24 / Modified: 16:28:45" itemprop="dateCreated datePublished" datetime="2020-06-01T16:20:24+08:00">2020-06-01</time>
+              <time title="Created: 2020-07-02 15:28:37 / Modified: 16:24:09" itemprop="dateCreated datePublished" datetime="2020-07-02T15:28:37+08:00">2020-07-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -188,12 +188,6 @@
                     <span itemprop="name">java</span>
                   </a>
                 </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
-                  </a>
-                </span>
             </span>
 
           
@@ -205,8 +199,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2020/06/01/ArrayList%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/01/ArrayList%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/07/02/%E9%9B%86%E5%90%88%E7%B1%BB%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/02/%E9%9B%86%E5%90%88%E7%B1%BB%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -216,112 +210,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>714</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="实质"><a href="#实质" class="headerlink" title="实质"></a>实质</h3><p>ArrayList的底层实现就是数组</p>
-<p>其动态变化的长度是由其扩容机制所组成的，在jdk1.8中，扩容代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Increases the capacity to ensure that it can hold at least the</span></span><br><span class="line"><span class="comment"> * number of elements specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看出，新的容量是原来的1.5倍.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Default initial capacity.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-
-<p>默认长度是10</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/06/01/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E8%A2%AB%E5%BA%8F%E5%88%97%E5%8C%96%E7%A0%B4%E5%9D%8F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/01/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E8%A2%AB%E5%BA%8F%E5%88%97%E5%8C%96%E7%A0%B4%E5%9D%8F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">单例模式被序列化破坏的解决方案</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-06-01 11:05:13 / Modified: 11:42:37" itemprop="dateCreated datePublished" datetime="2020-06-01T11:05:13+08:00">2020-06-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/06/01/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E8%A2%AB%E5%BA%8F%E5%88%97%E5%8C%96%E7%A0%B4%E5%9D%8F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/01/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E8%A2%AB%E5%BA%8F%E5%88%97%E5%8C%96%E7%A0%B4%E5%9D%8F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.7k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -340,19 +229,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="饿汉模式-序列化"><a href="#饿汉模式-序列化" class="headerlink" title="饿汉模式-序列化"></a>饿汉模式-序列化</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.xixing.design.pattern.creational.singleton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/1 10:38</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungrySingleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">//private final static HungrySingleton hungrySingleton=new HungrySingleton();</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> HungrySingleton hungrySingleton;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        hungrySingleton=<span class="keyword">new</span> HungrySingleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungrySingleton</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungrySingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hungrySingleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hungrySingleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/2 14:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerNotSafeDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list= <span class="keyword">new</span> CopyOnWriteArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">                list.add(UUID.randomUUID().toString().substring(<span class="number">0</span>,<span class="number">8</span>));</span><br><span class="line">                System.out.println(list);</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//java.util.ConcurrentModificationException</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *1.故障现象</span></span><br><span class="line"><span class="comment">         *  java.util.ConcurrentModificationException</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         *2.导致原因</span></span><br><span class="line"><span class="comment">         *  并发争抢修改导致，参考花名册签名，一个正在写，另一个抢导致</span></span><br><span class="line"><span class="comment">         *3.解决方案</span></span><br><span class="line"><span class="comment">         *     1.new Vector&lt;&gt;() 不建议，这个类已经被不建议使用。</span></span><br><span class="line"><span class="comment">         *     2.Collections.synchronizedList(new ArrayList())</span></span><br><span class="line"><span class="comment">         *     3.new CopyOnWriteArrayList&lt;&gt;();</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在最后加入方法readResolve()即可在反序列化中返回原来对象。</p>
-<h4 id="反射攻击预防"><a href="#反射攻击预防" class="headerlink" title="反射攻击预防"></a>反射攻击预防</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.xixing.design.pattern.creational.singleton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/1 10:38</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungrySingleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">//private final static HungrySingleton hungrySingleton=new HungrySingleton();</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> HungrySingleton hungrySingleton;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        hungrySingleton=<span class="keyword">new</span> HungrySingleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//反射攻击预防</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungrySingleton</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(hungrySingleton!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"单例模式禁止反射"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungrySingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hungrySingleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hungrySingleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200702152923248.png" alt="image-20200702152923248"></p>
+<h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><p>HashSet底层是HashMap，以key为set，value是一个object的常量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a new, empty set; the backing &lt;tt&gt;HashMap&lt;/tt&gt; instance has</span></span><br><span class="line"><span class="comment"> * default initial capacity (16) and load factor (0.75).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Adds the specified element to this set if it is not already present.</span></span><br><span class="line"><span class="comment"> * More formally, adds the specified element &lt;tt&gt;e&lt;/tt&gt; to this set if</span></span><br><span class="line"><span class="comment"> * this set contains no element &lt;tt&gt;e2&lt;/tt&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(e==null&amp;nbsp;?&amp;nbsp;e2==null&amp;nbsp;:&amp;nbsp;e.equals(e2))&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> * If this set already contains the element, the call leaves the set</span></span><br><span class="line"><span class="comment"> * unchanged and returns &lt;tt&gt;false&lt;/tt&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be added to this set</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; if this set did not already contain the specified</span></span><br><span class="line"><span class="comment"> * element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; set= <span class="keyword">new</span> CopyOnWriteArraySet&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        set.add(UUID.randomUUID().toString().substring(<span class="number">0</span>,<span class="number">8</span>));</span><br><span class="line">        System.out.println(set);</span><br><span class="line">    &#125;,String.valueOf(i)).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; map= <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        map.put(Thread.currentThread().getName(),UUID.randomUUID().toString().substring(<span class="number">0</span>,<span class="number">8</span>));</span><br><span class="line">        System.out.println(map);</span><br><span class="line">    &#125;,String.valueOf(i)).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
-
-<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>对于懒汉模式，并不能对反射攻击进行有效防御</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.xixing.design.pattern.creational.singleton;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/1 8:45</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LazySingleton lazySingleton=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> flag=<span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!flag)&#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"单例模式禁止反射"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            flag=<span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 如果锁的是静态方法，相当于把这个class给锁了</span></span><br><span class="line"><span class="comment">     * 锁的不是静态方法，相当于把堆内存中的实例锁了</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(lazySingleton==<span class="keyword">null</span>)&#123;</span><br><span class="line">            lazySingleton=<span class="keyword">new</span> LazySingleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lazySingleton;</span><br><span class="line"><span class="comment">//        synchronized (LazySingleton.class)&#123;</span></span><br><span class="line"><span class="comment">//            if(lazySingleton==null)&#123;</span></span><br><span class="line"><span class="comment">//                lazySingleton=new LazySingleton();</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//        return lazySingleton;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Class objectClass=LazySingleton<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">LazySingleton lazySingleton = LazySingleton.getInstance();</span><br><span class="line">Field flag=lazySingleton.getClass().getDeclaredField(<span class="string">"flag"</span>);</span><br><span class="line">flag.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">flag.set(lazySingleton,<span class="keyword">true</span>);</span><br><span class="line">Constructor constructor=objectClass.getDeclaredConstructor();</span><br><span class="line">constructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">LazySingleton lazySingleton1 = (LazySingleton) constructor.newInstance();</span><br><span class="line"><span class="comment">//HungrySingleton hungrySingleton =(HungrySingleton) constructor.newInstance();</span></span><br><span class="line"><span class="comment">//HungrySingleton hungrySingleton1=HungrySingleton.getInstance();</span></span><br><span class="line">System.out.println(lazySingleton);</span><br><span class="line">System.out.println(lazySingleton1);</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -371,7 +262,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/05/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/01/CAS%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -385,7 +276,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" class="post-title-link" itemprop="url">IDEA快捷键</a>
+            <a href="/2020/07/01/CAS%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">CAS及其底层原理</a>
         </h1>
 
         <div class="post-meta">
@@ -396,7 +287,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-31 17:07:03 / Modified: 17:09:42" itemprop="dateCreated datePublished" datetime="2020-05-31T17:07:03+08:00">2020-05-31</time>
+              <time title="Created: 2020-07-01 10:44:03 / Modified: 11:32:38" itemprop="dateCreated datePublished" datetime="2020-07-01T10:44:03+08:00">2020-07-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -419,8 +310,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2020/05/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/07/01/CAS%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/01/CAS%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -430,7 +321,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>48</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -449,9 +340,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>ctrl+alt+b是查看接口的实现类</p>
-<p>ctrl+f12是查该类的方法</p>
-<p>ctrl+n是查整个项目的类</p>
+          <h3 id="什么是CAS"><a href="#什么是CAS" class="headerlink" title="什么是CAS"></a>什么是CAS</h3><p>CAS是比较并交换即CompareAndSwap,是一条CPU并发原语，不能被打断</p>
+<p>它会比较主物理内存和当前线程的变量是否相等</p>
+<p>如果相等就会改变值，不等就会return false;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/1 10:23</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 1. CAS是什么 ==》CompareAndSwap</span></span><br><span class="line"><span class="comment"> *      比较并交换</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CASDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        AtomicInteger atomicInteger=<span class="keyword">new</span> AtomicInteger(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//main thread do something..</span></span><br><span class="line">        System.out.println(atomicInteger.compareAndSet(<span class="number">5</span>,<span class="number">2019</span>)+<span class="string">"\t"</span>+atomicInteger.get());</span><br><span class="line">        System.out.println(atomicInteger.compareAndSet(<span class="number">5</span>,<span class="number">1024</span>)+<span class="string">"\t"</span>+atomicInteger.get());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CAS底层原理"><a href="#CAS底层原理" class="headerlink" title="CAS底层原理"></a>CAS底层原理</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicInteger</span> <span class="keyword">extends</span> <span class="title">Number</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">6214790243416807050L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// setup to use Unsafe.compareAndSwapInt for updates</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Unsafe unsafe = Unsafe.getUnsafe();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> valueOffset;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            valueOffset = unsafe.objectFieldOffset</span><br><span class="line">                (AtomicInteger.class.getDeclaredField("value"));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception ex) &#123; <span class="keyword">throw</span> <span class="keyword">new</span> Error(ex); &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，AtomicInteger调用了UnSafe类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Atomically increments by one the current value.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the previous value</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getAndIncrement</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> unsafe.getAndAddInt(<span class="keyword">this</span>, valueOffset, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的getAndIncrement调用了unsafe的getAndAddInt();</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *var1 是AtomicInteger本身</span></span><br><span class="line"><span class="comment"> *var2 是该对象的内存偏移地址</span></span><br><span class="line"><span class="comment"> *var4是要加的值</span></span><br><span class="line"><span class="comment"> *var5是找主内存的真实值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getAndAddInt</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">int</span> var4)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> var5;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        var5 = <span class="keyword">this</span>.getIntVolatile(var1, var2);</span><br><span class="line">    &#125; <span class="keyword">while</span>(!<span class="keyword">this</span>.compareAndSwapInt(var1, var2, var5, var5 + var4));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> var5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">boolean</span> <span class="title">compareAndSwapInt</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">int</span> var4, <span class="keyword">int</span> var5)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>是一个native类</p>
 
       
     </div>
@@ -471,7 +375,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/05/31/java%E8%AF%BB%E7%9B%AE%E5%BD%95%E9%87%8C%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/06/30/volatile%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -485,7 +389,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/31/java%E8%AF%BB%E7%9B%AE%E5%BD%95%E9%87%8C%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">java读目录里所有文件</a>
+            <a href="/2020/06/30/volatile%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">volatile特性</a>
         </h1>
 
         <div class="post-meta">
@@ -494,10 +398,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-31 08:26:59 / Modified: 08:28:00" itemprop="dateCreated datePublished" datetime="2020-05-31T08:26:59+08:00">2020-05-31</time>
+              <time title="Created: 2020-06-30 14:28:52" itemprop="dateCreated datePublished" datetime="2020-06-30T14:28:52+08:00">2020-06-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-01 10:43:09" itemprop="dateModified" datetime="2020-07-01T10:43:09+08:00">2020-07-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -519,8 +429,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2020/05/31/java%E8%AF%BB%E7%9B%AE%E5%BD%95%E9%87%8C%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/31/java%E8%AF%BB%E7%9B%AE%E5%BD%95%E9%87%8C%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/06/30/volatile%E7%89%B9%E6%80%A7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/30/volatile%E7%89%B9%E6%80%A7/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -530,14 +440,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>461</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>4 mins.</span>
             </span>
 
         </div>
@@ -549,7 +459,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> site.xixing.io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/5/31 8:03</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadDirectory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        File file=<span class="keyword">new</span> File(<span class="string">"D:\\wx"</span>);</span><br><span class="line">        File[] files = file.listFiles();</span><br><span class="line">        <span class="keyword">for</span> (File file1 : files) &#123;</span><br><span class="line">            String substring = file1.getName().substring(<span class="number">2</span>);</span><br><span class="line">            String newFilePath=file1.getParent()+File.separator+substring;</span><br><span class="line">            File newFile=<span class="keyword">new</span> File(newFilePath);</span><br><span class="line">            file1.renameTo(newFile);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h3 id="volatile的可见性"><a href="#volatile的可见性" class="headerlink" title="volatile的可见性"></a>volatile的可见性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VolatileDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyData myData=<span class="keyword">new</span> MyData();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">"come in"</span>);</span><br><span class="line">            <span class="comment">//暂停一会线程</span></span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(<span class="number">3</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            myData.addTo60();</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">":"</span>+myData.number);</span><br><span class="line">        &#125;,<span class="string">"AAA"</span>).start();</span><br><span class="line">        <span class="comment">//main线程，如果可见，则跳出循环</span></span><br><span class="line">        <span class="keyword">while</span> (myData.number==<span class="number">0</span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"\t"</span>+<span class="string">"mission is over main thread number="</span>+myData.number);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyData</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> number=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addTo60</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.number=<span class="number">60</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h4><p>由于JVM运行程序的实体是线程，每个线程创建时JVM会为其创建一个工作内存，工作内存是每个线程的私有数据区域，而Java内存模型中规定所有的变量都存储在主内存中，主内存是共享内存区域，所有的线程都可以访问，但线程对变量的操作必须在工作内存中进行，首先要把变量从主内存中拷贝一份到工作内存，在工作内存操作完之后再写回主内存，但是不同线程之间工作内存是不能相互访问的，写回主内存之后要保证其他线程能够及时知道主内存中的变量值变了。这就是可见性。</p>
+<h3 id="JMM规范（Java-Memory-Model）"><a href="#JMM规范（Java-Memory-Model）" class="headerlink" title="JMM规范（Java Memory Model）"></a>JMM规范（Java Memory Model）</h3><p>1.是一个抽象概念，描述一组规则或规范</p>
+<h4 id="JMM关于同步的规定"><a href="#JMM关于同步的规定" class="headerlink" title="JMM关于同步的规定"></a>JMM关于同步的规定</h4><p>1.线程解锁前，必须把共享变量的值刷新回主内存</p>
+<p>2.线程加锁前，必须读取主内存的最新值到自己的工作空间</p>
+<p>3.加锁解锁是同一把锁</p>
+<h3 id="volatile不保证原子性"><a href="#volatile不保证原子性" class="headerlink" title="volatile不保证原子性"></a>volatile不保证原子性</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200630153537384.png" alt="image-20200630153537384"></p>
+<p>javap -c在IDEA 2019.2的配置</p>
+<p>-c $FileDir$$FileNameWithoutAllExtensions$.class</p>
+<p>$FileDir​$</p>
+<p>-v -c -s -l -p  $OutputPath​$$FileDirRelativeToSourcepath$$FileNameWithoutExtension​$.class</p>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/29 16:05</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 1.验证volatile的可见性</span></span><br><span class="line"><span class="comment"> * 1.1 假如int number=0 number变量之前根本没有添加valatile关键字修饰</span></span><br><span class="line"><span class="comment"> * 1.2添加volatile可以保证可见性</span></span><br><span class="line"><span class="comment"> * 2.验证volatile不保证原子性</span></span><br><span class="line"><span class="comment"> *  2.1原子性即不可分隔，完整性</span></span><br><span class="line"><span class="comment"> *  2.2解决volatile不保证原子性问题</span></span><br><span class="line"><span class="comment"> *      1.synchronized</span></span><br><span class="line"><span class="comment"> *      2.AtomicInteger</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VolatileDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        MyData myData = <span class="keyword">new</span> MyData();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">                    myData.addPlusPlus();</span><br><span class="line">                    myData.addAtomic();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;, String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//需要等待20个线程都执行完,再用main线程看看结果是多少</span></span><br><span class="line">        <span class="comment">//大于2是因为后台默认有两个线程，一个是main线程，还有gc线程</span></span><br><span class="line">        <span class="keyword">while</span> (Thread.activeCount() &gt; <span class="number">2</span>) &#123;</span><br><span class="line">            Thread.yield();<span class="comment">//礼让</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"\t"</span> + <span class="string">"finally number is "</span> + myData.number);</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"\t"</span> + <span class="string">"finally atomicInteger is "</span> + myData.atomicInteger.get());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * valotile可以保证可见性</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">seeOkByVolatile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MyData myData = <span class="keyword">new</span> MyData();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"come in"</span>);</span><br><span class="line">            <span class="comment">//暂停一会线程</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(<span class="number">3</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            myData.addTo60();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">":"</span> + myData.number);</span><br><span class="line">        &#125;, <span class="string">"AAA"</span>).start();</span><br><span class="line">        <span class="comment">//main线程，如果可见，则跳出循环</span></span><br><span class="line">        <span class="keyword">while</span> (myData.number == <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"\t"</span> + <span class="string">"mission is over main thread number="</span> + myData.number);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyData</span> </span>&#123;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    AtomicInteger atomicInteger=<span class="keyword">new</span> AtomicInteger();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addAtomic</span><span class="params">()</span></span>&#123;</span><br><span class="line">        atomicInteger.getAndIncrement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addTo60</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.number = <span class="number">60</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPlusPlus</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 线程中number++有三步</span></span><br><span class="line"><span class="comment">         * 1.读到工作内存</span></span><br><span class="line"><span class="comment">         * 2.+1</span></span><br><span class="line"><span class="comment">         * 3.写回</span></span><br><span class="line"><span class="comment">         * 在写回的时候会出现丢失数据情况，可能一个刚写完，</span></span><br><span class="line"><span class="comment">         * 还来不及通知其他线程另一个又开始写了</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        number++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="未加volatile关键字的DCL-Double-Check-Lock-存在的问题"><a href="#未加volatile关键字的DCL-Double-Check-Lock-存在的问题" class="headerlink" title="未加volatile关键字的DCL(Double Check Lock)存在的问题"></a>未加volatile关键字的DCL(Double Check Lock)存在的问题</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/1 8:45</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyDoubleCheckSingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> LazyDoubleCheckSingleton lazySingleton=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazyDoubleCheckSingleton</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 如果锁的是静态方法，相当于把这个class给锁了</span></span><br><span class="line"><span class="comment">     * 锁的不是静态方法，相当于把堆内存中的实例锁了</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> LazyDoubleCheckSingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(lazySingleton==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (LazyDoubleCheckSingleton<span class="class">.<span class="keyword">class</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(lazySingleton==<span class="keyword">null</span>)&#123;</span><br><span class="line">                    lazySingleton=<span class="keyword">new</span> LazyDoubleCheckSingleton();</span><br><span class="line">                    <span class="comment">//1.分配内存给这个对象</span></span><br><span class="line">                    <span class="comment">//2.初始化对象</span></span><br><span class="line">                    <span class="comment">//3.设置lazyDoubleCheckSingleton 指向刚分配的内存地址</span></span><br><span class="line">                    <span class="comment">//2和3可能顺序会颠倒，加入volatile会使得2和3只能按顺序，使得线程安全，</span></span><br><span class="line">                    <span class="comment">// 可以看到共享内存的状态</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lazySingleton;</span><br><span class="line"><span class="comment">//        synchronized (LazySingleton.class)&#123;</span></span><br><span class="line"><span class="comment">//            if(lazySingleton==null)&#123;</span></span><br><span class="line"><span class="comment">//                lazySingleton=new LazySingleton();</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//        return lazySingleton;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -568,7 +494,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/05/30/UML%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/06/28/%E6%93%8D%E4%BD%9Ces/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -582,7 +508,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/30/UML%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">UML笔记</a>
+            <a href="/2020/06/28/%E6%93%8D%E4%BD%9Ces/" class="post-title-link" itemprop="url">操作es</a>
         </h1>
 
         <div class="post-meta">
@@ -593,7 +519,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-30 15:11:32 / Modified: 16:56:58" itemprop="dateCreated datePublished" datetime="2020-05-30T15:11:32+08:00">2020-05-30</time>
+              <time title="Created: 2020-06-28 09:17:54 / Modified: 09:26:45" itemprop="dateCreated datePublished" datetime="2020-06-28T09:17:54+08:00">2020-06-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -601,8 +527,8 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
                   </a>
                 </span>
             </span>
@@ -616,8 +542,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2020/05/30/UML%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/30/UML%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/06/28/%E6%93%8D%E4%BD%9Ces/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/28/%E6%93%8D%E4%BD%9Ces/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -627,14 +553,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>75</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>2 mins.</span>
             </span>
 
         </div>
@@ -646,10 +572,107 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200530154107595.png" alt="image-20200530154107595"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+为 public</span><br><span class="line">-为private</span><br><span class="line">#为protect</span><br><span class="line">~为default</span><br><span class="line">加下划线为static</span><br><span class="line">斜体为abstract</span><br><span class="line">所以整个类应该斜体</span><br></pre></td></tr></table></figure>
+          <h3 id="kibana操作es"><a href="#kibana操作es" class="headerlink" title="kibana操作es"></a>kibana操作es</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;user&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [&#x2F;&#x2F;可以是should，must就是&amp;&amp;,should就是||</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &quot;Jack&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;range&quot;: &#123;</span><br><span class="line">            &quot;age&quot;: &#123;</span><br><span class="line">              &quot;gte&quot;: 20,</span><br><span class="line">              &quot;lte&quot;: 40</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200530154219951.png" alt="image-20200530154219951"></p>
+<h3 id="Spark操作ES"><a href="#Spark操作ES" class="headerlink" title="Spark操作ES"></a>Spark操作ES</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/28 8:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ESDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        SparkConf sparkConf=<span class="keyword">new</span> SparkConf().setAppName(<span class="string">"es demo"</span>).setMaster(<span class="string">"local[*]"</span>);</span><br><span class="line">        sparkConf.set(<span class="string">"es.nodes"</span>,<span class="string">"namenode"</span>);</span><br><span class="line">        sparkConf.set(<span class="string">"es.port"</span>,<span class="string">"9200"</span>);</span><br><span class="line">        sparkConf.set(<span class="string">"es.index.auto.create"</span>,<span class="string">"true"</span>);</span><br><span class="line">        JavaSparkContext jsc=<span class="keyword">new</span> JavaSparkContext(sparkConf);</span><br><span class="line"><span class="comment">/*      往user里面插数据，如果没有user就新建并且插入数据/user/_doc</span></span><br><span class="line"><span class="comment">        List&lt;User&gt; list=new ArrayList&lt;&gt;();</span></span><br><span class="line"><span class="comment">        list.add(new User("Jack",20));</span></span><br><span class="line"><span class="comment">        list.add(new User("Rose",19));</span></span><br><span class="line"><span class="comment">        JavaRDD&lt;User&gt; javaRDD = jsc.parallelize(list);</span></span><br><span class="line"><span class="comment">        JavaEsSpark.saveToEs(javaRDD,"/user/_doc");*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//        /**</span></span><br><span class="line"><span class="comment">//         * 从/user/_doc里面查数据</span></span><br><span class="line"><span class="comment">//         */</span></span><br><span class="line"><span class="comment">//        JavaPairRDD&lt;String, Map&lt;String, Object&gt;&gt; javaPairRDD = JavaEsSpark.esRDD(jsc, "/user/_doc");</span></span><br><span class="line"><span class="comment">//        Map&lt;String, Map&lt;String, Object&gt;&gt; stringMapMap = javaPairRDD.collectAsMap();</span></span><br><span class="line"><span class="comment">//        System.out.println(stringMapMap);</span></span><br><span class="line"><span class="comment">//        JavaRDD&lt;User&gt; javaRDD = javaPairRDD.map(new Function&lt;Tuple2&lt;String, Map&lt;String, Object&gt;&gt;, User&gt;() &#123;</span></span><br><span class="line"><span class="comment">//            @Override</span></span><br><span class="line"><span class="comment">//            public User call(Tuple2&lt;String, Map&lt;String, Object&gt;&gt; stringMapTuple2) throws Exception &#123;</span></span><br><span class="line"><span class="comment">//                User user = new User();</span></span><br><span class="line"><span class="comment">//                BeanUtils.populate(user, stringMapTuple2._2());</span></span><br><span class="line"><span class="comment">//                return user;</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//        &#125;);</span></span><br><span class="line"><span class="comment">//        List&lt;User&gt; userList = javaRDD.collect();</span></span><br><span class="line"><span class="comment">//        System.out.println(userList);</span></span><br><span class="line"></span><br><span class="line">        String query=<span class="string">"&#123;\"query\":&#123;\"bool\":&#123;\"must\":[&#123;\"match\":&#123;\"name\":\"Jack\"&#125;&#125;,&#123;\"range\":&#123;\"age\":&#123;\"gte\":20,\"lte\":40&#125;&#125;&#125;]&#125;&#125;&#125;"</span>;</span><br><span class="line">        JavaPairRDD&lt;String, Map&lt;String, Object&gt;&gt; pairRDD = JavaEsSpark.esRDD(jsc, <span class="string">"/user/_doc"</span>, query);</span><br><span class="line">        Map&lt;String, Map&lt;String, Object&gt;&gt; stringMapMap = pairRDD.collectAsMap();</span><br><span class="line">        System.out.println(stringMapMap);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Data</span></span><br><span class="line">    <span class="meta">@AllArgsConstructor</span></span><br><span class="line">    <span class="meta">@NoArgsConstructor</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String name;</span><br><span class="line">        <span class="keyword">private</span> Integer age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/06/27/spark%E5%AE%9E%E7%8E%B0%E6%96%B0%E6%B3%A8%E5%86%8C%E6%AF%8F%E6%97%A5%E5%B9%B6%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/27/spark%E5%AE%9E%E7%8E%B0%E6%96%B0%E6%B3%A8%E5%86%8C%E6%AF%8F%E6%97%A5%E5%B9%B6%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">spark实现新注册每日并排序</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-27 20:36:19 / Modified: 20:37:03" itemprop="dateCreated datePublished" datetime="2020-06-27T20:36:19+08:00">2020-06-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/06/27/spark%E5%AE%9E%E7%8E%B0%E6%96%B0%E6%B3%A8%E5%86%8C%E6%AF%8F%E6%97%A5%E5%B9%B6%E6%8E%92%E5%BA%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/27/spark%E5%AE%9E%E7%8E%B0%E6%96%B0%E6%B3%A8%E5%86%8C%E6%AF%8F%E6%97%A5%E5%B9%B6%E6%8E%92%E5%BA%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.xixing.spark06.elt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.Dataset;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.Row;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.SparkSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.types.StructType;</span><br><span class="line"><span class="keyword">import</span> scala.Tuple2;</span><br><span class="line"><span class="keyword">import</span> tech.xixing.spark06.support.date.DateStyle;</span><br><span class="line"><span class="keyword">import</span> tech.xixing.spark06.support.date.DateUtil;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"><span class="keyword">import</span> java.time.Month;</span><br><span class="line"><span class="keyword">import</span> java.time.ZoneId;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/27 19:21</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LineChartETL</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> SparkSession <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        SparkSession sparkSession=SparkSession.builder().appName(<span class="string">"member etl"</span>)</span><br><span class="line">                .master(<span class="string">"local[*]"</span>).enableHiveSupport().getOrCreate();</span><br><span class="line">        <span class="keyword">return</span> sparkSession;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SparkSession sparkSession = init();</span><br><span class="line">        List&lt;LineVo&gt; lineVoList = lineVos(sparkSession);</span><br><span class="line">        System.out.println(lineVoList);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;LineVo&gt; <span class="title">lineVos</span><span class="params">(SparkSession sparkSession)</span> </span>&#123;</span><br><span class="line">        ZoneId defaultZoneId = ZoneId.systemDefault();</span><br><span class="line">        LocalDate now = LocalDate.of(<span class="number">2019</span>, Month.NOVEMBER, <span class="number">30</span>);</span><br><span class="line">        Date nowDay = Date.from(now.atStartOfDay(defaultZoneId).toInstant());</span><br><span class="line">        Date sevenDayBefore = DateUtil.addDay(nowDay, -<span class="number">8</span>);</span><br><span class="line">        String membersql=<span class="string">" select date_format(create_time,'yyyy-MM-dd') as day ,"</span> +</span><br><span class="line">                <span class="string">" count(id) as regCount ,max(id) as memberCount "</span> +</span><br><span class="line">                <span class="string">" from i_member.t_member "</span> +</span><br><span class="line">                <span class="string">" where create_time&gt;'%s' "</span> +</span><br><span class="line">                <span class="string">" group by date_format(create_time,'yyyy-MM-dd')"</span>;</span><br><span class="line">        membersql = String.format(membersql, DateUtil.DateToString(sevenDayBefore, DateStyle.YYYY_MM_DD_HH_MM_SS));</span><br><span class="line">        Dataset&lt;Row&gt; memberDataset = sparkSession.sql(membersql);</span><br><span class="line">        String ordersql=<span class="string">" select date_format(create_time,'yyyy-MM-dd') as day ,"</span> +</span><br><span class="line">                <span class="string">" max(order_id) as orderCount , "</span> +</span><br><span class="line">                <span class="string">" sum(origin_price) as gmv "</span> +</span><br><span class="line">                <span class="string">" from i_order.t_order "</span> +</span><br><span class="line">                <span class="string">" where create_time&gt;'%s' "</span> +</span><br><span class="line">                <span class="string">" group by date_format(create_time,'yyyy-MM-dd') order by day "</span>;</span><br><span class="line">        ordersql = String.format(ordersql, DateUtil.DateToString(sevenDayBefore, DateStyle.YYYY_MM_DD_HH_MM_SS));</span><br><span class="line">        Dataset&lt;Row&gt; orderDataset = sparkSession.sql(ordersql);</span><br><span class="line">        Dataset&lt;Tuple2&lt;Row, Row&gt;&gt; tuple2Dataset = memberDataset.joinWith(orderDataset, memberDataset.col(<span class="string">"day"</span>).equalTo(orderDataset.col(<span class="string">"day"</span>)), <span class="string">"inner"</span>);</span><br><span class="line">        <span class="comment">//join后再collect as list</span></span><br><span class="line">        List&lt;Tuple2&lt;Row, Row&gt;&gt; collectAsList = tuple2Dataset.collectAsList();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 查七天前的总额加上每天的量就是从当天到一开始的总额</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        List&lt;LineVo&gt; lineVoList=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Tuple2&lt;Row, Row&gt; rowRowTuple2 : collectAsList) &#123;</span><br><span class="line">            JSONObject jsonObject=<span class="keyword">new</span> JSONObject();</span><br><span class="line">            Row row1 = rowRowTuple2._1();</span><br><span class="line">            Row row2 = rowRowTuple2._2();</span><br><span class="line">            StructType schema = row1.schema();</span><br><span class="line">            String[] strings = schema.fieldNames();</span><br><span class="line">            <span class="keyword">for</span> (String string : strings) &#123;</span><br><span class="line">                Object as = row1.getAs(string);</span><br><span class="line">                jsonObject.put(string,as);</span><br><span class="line">            &#125;</span><br><span class="line">            schema = row2.schema();</span><br><span class="line">            strings = schema.fieldNames();</span><br><span class="line">            <span class="keyword">for</span> (String string : strings) &#123;</span><br><span class="line">                Object as = row2.getAs(string);</span><br><span class="line">                jsonObject.put(string,as);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            LineVo lineVo = jsonObject.toJavaObject(LineVo<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            lineVoList.add(lineVo);</span><br><span class="line">        &#125;</span><br><span class="line">        Collections.sort(lineVoList);</span><br><span class="line">        String gmvsql=<span class="string">"select sum(origin_price) as gmvFirst from i_order.t_order "</span> +</span><br><span class="line">                <span class="string">" where create_time&lt;'%s' "</span>;</span><br><span class="line">        gmvsql= String.format(gmvsql, DateUtil.DateToString(sevenDayBefore, DateStyle.YYYY_MM_DD_HH_MM_SS));</span><br><span class="line">        Dataset&lt;Row&gt; dataset = sparkSession.sql(gmvsql);</span><br><span class="line">        <span class="keyword">double</span> aDouble = dataset.collectAsList().get(<span class="number">0</span>).getDouble(<span class="number">0</span>);</span><br><span class="line">        BigDecimal sum=BigDecimal.valueOf(aDouble);</span><br><span class="line">        List&lt;BigDecimal&gt; destList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (LineVo lineVo : lineVoList) &#123;</span><br><span class="line">            BigDecimal gmv = lineVo.getGmv();</span><br><span class="line">            BigDecimal temp = <span class="keyword">new</span> BigDecimal(sum.toString());</span><br><span class="line">            sum=temp.add(gmv);</span><br><span class="line">            temp=temp.add(gmv);</span><br><span class="line">            lineVo.setGmv(temp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> lineVoList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Data</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LineVo</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">LineVo</span>&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String day;</span><br><span class="line">        <span class="keyword">private</span> Integer regCount;</span><br><span class="line">        <span class="keyword">private</span> Integer memberCount;</span><br><span class="line">        <span class="keyword">private</span> Integer orderCount;</span><br><span class="line">        <span class="keyword">private</span> BigDecimal gmv;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(LineVo o)</span> </span>&#123;</span><br><span class="line">            String num1Str = <span class="keyword">this</span>.day.substring(<span class="number">8</span>);</span><br><span class="line">            String num2Str = o.day.substring(<span class="number">8</span>);</span><br><span class="line">            <span class="keyword">if</span>(Integer.valueOf(num1Str)&gt;Integer.valueOf(num2Str))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(Integer.valueOf(num1Str)&lt;Integer.valueOf(num2Str))&#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -669,7 +692,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -735,7 +758,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -748,7 +771,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -783,13 +806,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">64k</span>
+    <span title="Symbols count total">71k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">58 mins.</span>
+    <span title="Reading time total">1:05</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>
