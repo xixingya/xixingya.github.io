@@ -151,6 +151,213 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/05/11/myBatis%E4%B8%80%E6%AC%A1%E6%89%A7%E8%A1%8C%E5%A4%9A%E6%9D%A1%E8%AF%AD%E5%8F%A5%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/11/myBatis%E4%B8%80%E6%AC%A1%E6%89%A7%E8%A1%8C%E5%A4%9A%E6%9D%A1%E8%AF%AD%E5%8F%A5%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">myBatis一次执行多条语句问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-11 17:19:25 / Modified: 17:22:42" itemprop="dateCreated datePublished" datetime="2020-05-11T17:19:25+08:00">2020-05-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sql/" itemprop="url" rel="index">
+                    <span itemprop="name">sql</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/05/11/myBatis%E4%B8%80%E6%AC%A1%E6%89%A7%E8%A1%8C%E5%A4%9A%E6%9D%A1%E8%AF%AD%E5%8F%A5%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/11/myBatis%E4%B8%80%E6%AC%A1%E6%89%A7%E8%A1%8C%E5%A4%9A%E6%9D%A1%E8%AF%AD%E5%8F%A5%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>需要在application.yml里面连接数据库时添加运行执行多条sql语句</p>
+<p>&amp;allowMultiQueries=true</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://127.0.0.1:3306/mall?characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowMultiQueries=true</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateByListPrimaryKey"</span> <span class="attr">parameterType</span>=<span class="string">"java.util.List"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"productList"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">item</span>=<span class="string">"item"</span> <span class="attr">separator</span>=<span class="string">";"</span> &gt;</span></span><br><span class="line">    update mall_product</span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.categoryId != null"</span>&gt;</span></span><br><span class="line">        category_id = #&#123;item.categoryId,jdbcType=INTEGER&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.name != null"</span>&gt;</span></span><br><span class="line">        name = #&#123;item.name,jdbcType=VARCHAR&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.subtitle != null"</span>&gt;</span></span><br><span class="line">        subtitle = #&#123;item.subtitle,jdbcType=VARCHAR&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.mainImage != null"</span>&gt;</span></span><br><span class="line">        main_image = #&#123;item.mainImage,jdbcType=VARCHAR&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.subImages != null"</span>&gt;</span></span><br><span class="line">        sub_images = #&#123;item.subImages,jdbcType=VARCHAR&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.detail != null"</span>&gt;</span></span><br><span class="line">        detail = #&#123;item.detail,jdbcType=VARCHAR&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.price != null"</span>&gt;</span></span><br><span class="line">        price = #&#123;item.price,jdbcType=DECIMAL&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.stock != null"</span>&gt;</span></span><br><span class="line">        stock = #&#123;item.stock,jdbcType=INTEGER&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"item.status != null"</span>&gt;</span></span><br><span class="line">        status = #&#123;item.status,jdbcType=INTEGER&#125;,</span><br><span class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">    where id = #&#123;item.id,jdbcType=INTEGER&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/05/04/session%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/04/session%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">session知识</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-04 09:49:48 / Modified: 09:57:04" itemprop="dateCreated datePublished" datetime="2020-05-04T09:49:48+08:00">2020-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/05/04/session%E7%9F%A5%E8%AF%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/04/session%E7%9F%A5%E8%AF%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>设置session的过期时间</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">servlet:</span></span><br><span class="line">    <span class="attr">session:</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">PT5H</span></span><br></pre></td></tr></table></figure>
+
+<p>其中T是天和小时的分界符,不区分大小写，时间必须按顺序</p>
+<p>比如说 P2dt5h3m30s</p>
+<p>就是两天五小时三分钟三十秒</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/user/login"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseVO&lt;User&gt; <span class="title">login</span><span class="params">(@Valid @RequestBody UserLoginForm userLoginForm,</span></span></span><br><span class="line"><span class="function"><span class="params">                              BindingResult bindingResult,</span></span></span><br><span class="line"><span class="function"><span class="params">                              HttpServletRequest httpServletRequest)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(bindingResult.hasErrors())&#123;</span><br><span class="line">        <span class="keyword">return</span> ResponseVO.error(ResponseEnum.PARAM_ERROR,bindingResult);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ResponseVO&lt;User&gt; responseVO = userService.login(userLoginForm.getUsername(), userLoginForm.getPassword());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置session</span></span><br><span class="line">    HttpSession session = httpServletRequest.getSession();</span><br><span class="line">    session.setAttribute(MallConst.CURRENT_USER,responseVO.getData());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> responseVO;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有另外一种获取方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/user/login"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseVO&lt;User&gt; <span class="title">login</span><span class="params">(@Valid @RequestBody UserLoginForm userLoginForm,</span></span></span><br><span class="line"><span class="function"><span class="params">                              BindingResult bindingResult,</span></span></span><br><span class="line"><span class="function"><span class="params">                              HttpSession session)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(bindingResult.hasErrors())&#123;</span><br><span class="line">        <span class="keyword">return</span> ResponseVO.error(ResponseEnum.PARAM_ERROR,bindingResult);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ResponseVO&lt;User&gt; responseVO = userService.login(userLoginForm.getUsername(), userLoginForm.getPassword());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置session</span></span><br><span class="line">    <span class="comment">//HttpSession session = httpServletRequest.getSession();</span></span><br><span class="line">    session.setAttribute(MallConst.CURRENT_USER,responseVO.getData());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> responseVO;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/04/29/MyBatis-generator%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -436,217 +643,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/03/09/kmp%E7%AE%97%E6%B3%95%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/09/kmp%E7%AE%97%E6%B3%95%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">kmp算法匹配字符串</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-03-09 16:19:55 / Modified: 16:27:29" itemprop="dateCreated datePublished" datetime="2020-03-09T16:19:55+08:00">2020-03-09</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/03/09/kmp%E7%AE%97%E6%B3%95%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/09/kmp%E7%AE%97%E6%B3%95%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.1k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="leetcode28题解法"><a href="#leetcode28题解法" class="headerlink" title="leetcode28题解法"></a>leetcode28题解法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/3/9 15:25</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">N28</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(needle.length()==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] next=getNext(needle);</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i&lt;haystack.length()&amp;&amp;j&lt;needle.length())&#123;</span><br><span class="line">            <span class="keyword">if</span>(j==-<span class="number">1</span>||haystack.charAt(i)==needle.charAt(j))&#123;</span><br><span class="line">                i++;</span><br><span class="line">                j++;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                j=next[j];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j==needle.length())&#123;</span><br><span class="line">            <span class="keyword">return</span> i-j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] getNext(String needle)&#123;</span><br><span class="line">        <span class="keyword">char</span>[] str=needle.toCharArray();</span><br><span class="line">        <span class="keyword">int</span>[] next=<span class="keyword">new</span> <span class="keyword">int</span>[needle.length()];</span><br><span class="line">        next[<span class="number">0</span>]=-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> j=<span class="number">0</span>,k=-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j&lt;str.length-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(k==-<span class="number">1</span>||str[j]==str[k])&#123;</span><br><span class="line">                next[++j]=++k;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                k=next[k];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> next;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        strStr(<span class="string">"mississippi"</span>, <span class="string">"issip"</span>);</span><br><span class="line">        String aaa=<span class="string">"aaa"</span>;</span><br><span class="line">        aaa.indexOf(<span class="string">"ll"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>kmp字符串匹配算法是目前很好的的一个字符串匹配算法，通过查看大多数资料，发现next数组只与needle本身有关。</p>
-<p>通过leetcode题解，可以把next数组里面的数字当成有限确定自动机，具体可以参考以下网址</p>
-<p><a href="https://www.cnblogs.com/dusf/p/kmp.html" target="_blank" rel="noopener">kmp算法讲解</a></p>
-<p><a href="https://leetcode-cn.com/problems/implement-strstr/solution/kmp-suan-fa-xiang-jie-by-labuladong/" target="_blank" rel="noopener">leetcode题解</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/03/03/%E6%89%8B%E5%86%99%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/03/%E6%89%8B%E5%86%99%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">手写归并排序</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-03-03 11:01:57 / Modified: 11:25:35" itemprop="dateCreated datePublished" datetime="2020-03-03T11:01:57+08:00">2020-03-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/03/03/%E6%89%8B%E5%86%99%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/03/%E6%89%8B%E5%86%99%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> site.xixing.array;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Array;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/3/3 10:08</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">N1001</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> m, <span class="keyword">int</span>[] B, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=n,j=<span class="number">0</span>;i&lt;A.length;i++)&#123;</span><br><span class="line">            A[i]=B[j];</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] temp=<span class="keyword">new</span> <span class="keyword">int</span>[A.length];</span><br><span class="line">        sort(A,<span class="number">0</span>,A.length-<span class="number">1</span>,temp);</span><br><span class="line">        System.out.println(A.toString());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge1</span><span class="params">(<span class="keyword">int</span>[] a,<span class="keyword">int</span> start,<span class="keyword">int</span> mid,<span class="keyword">int</span> end,<span class="keyword">int</span> [] temp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i=start;</span><br><span class="line">        <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i&lt;=mid&amp;&amp;j&lt;=end)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i]&lt;a[j])&#123;</span><br><span class="line">                temp[t++]=a[i++];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                temp[t++]=a[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i&lt;=mid)&#123;</span><br><span class="line">            temp[t++]=a[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (j&lt;=end)&#123;</span><br><span class="line">            temp[t++]=a[j++];</span><br><span class="line">        &#125;</span><br><span class="line">        t=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (start&lt;=end)&#123;</span><br><span class="line">            a[start++]=temp[t++];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] a,<span class="keyword">int</span> start,<span class="keyword">int</span> end,<span class="keyword">int</span>[] temp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(start&lt;end)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid=(end+start)/<span class="number">2</span>;</span><br><span class="line">            sort(a,start,mid,temp);<span class="comment">//递归下去</span></span><br><span class="line">            sort(a,mid+<span class="number">1</span>,end,temp);</span><br><span class="line">            merge1(a,start,mid,end,temp);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] A=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] B=&#123;<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>&#125;;</span><br><span class="line">        merge(A,<span class="number">3</span>,B,<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/aaa.png" alt="image-ugiuguygg"></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/image-20200303112239970.png" alt="image-20200303112239970"></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/image-20200303112239970.png" alt="image-20200303112349323"></p>
-<p><a href="https://www.cnblogs.com/chengxiao/p/6194356.html" target="_blank" rel="noopener">参考链接cnblogs</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -712,7 +713,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -725,7 +726,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -760,13 +761,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">71k</span>
+    <span title="Symbols count total">74k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">1:05</span>
+    <span title="Reading time total">1:08</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>

@@ -151,6 +151,205 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/09/12/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/12/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" class="post-title-link" itemprop="url">nginx反向代理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-09-12 18:51:26 / Modified: 18:55:15" itemprop="dateCreated datePublished" datetime="2020-09-12T18:51:26+08:00">2020-09-12</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/09/12/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/12/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>643</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost www.jxs17.com jxs17.com;</span><br><span class="line">    #charset koi8-r;</span><br><span class="line"></span><br><span class="line">    #access_log  logs&#x2F;host.access.log  main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        root   web;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">    # 把&#x2F;api的接口重定向到8081端口</span><br><span class="line">    location &#x2F;api&#x2F;  &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	# 把以admin开头的接口，定位到admin这个包下</span><br><span class="line">    location &#x2F;admin &#123;</span><br><span class="line">    alias   admin;</span><br><span class="line">    index  index.html index.htm;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">	# 把www重定向到不加www</span><br><span class="line">    if ($http_host !~ &quot;^jxs17.com$&quot;) &#123;</span><br><span class="line">                       rewrite  ^(.*)    http:&#x2F;&#x2F;jxs17.com$1 permanent;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      error_page   500 502 503 504  &#x2F;50x.html;</span><br><span class="line">        location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/09/11/SpringAOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/11/SpringAOP/" class="post-title-link" itemprop="url">SpringAOP</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-11 10:02:03" itemprop="dateCreated datePublished" datetime="2020-09-11T10:02:03+08:00">2020-09-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-12 18:24:00" itemprop="dateModified" datetime="2020-09-12T18:24:00+08:00">2020-09-12</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/09/11/SpringAOP/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/11/SpringAOP/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="AOP概念"><a href="#AOP概念" class="headerlink" title="AOP概念"></a>AOP概念</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200911100300131.png" alt="image-20200911100300131"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912143553232.png" alt="image-20200912143553232"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912143723324.png" alt="image-20200912143723324"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912143947565.png" alt="image-20200912143947565"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912144656229.png" alt="image-20200912144656229"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912144629876.png" alt="image-20200912144629876"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912145028664.png" alt="image-20200912145028664"></p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/9/11 10:21</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * *表示所有返回类型</span></span><br><span class="line"><span class="comment">    * ..表示该包下面的所有子包</span></span><br><span class="line"><span class="comment">    * *表示所有类</span></span><br><span class="line"><span class="comment">    * .*表示所有方法</span></span><br><span class="line"><span class="comment">    * (..)表示方法不管多少个参数</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Pointcut</span>(<span class="string">"execution(* site.xixing.service..*.*(..))"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embed</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Before</span>(<span class="string">"embed()"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"begin the joinPoint"</span>+joinPoint);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@After</span>(<span class="string">"embed()"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"end the joinPoint"</span>+joinPoint);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Around</span>(<span class="string">"embed()"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</span><br><span class="line">      <span class="keyword">long</span> start=System.currentTimeMillis();</span><br><span class="line">      System.out.println(<span class="string">"开始计时:"</span>+start);</span><br><span class="line">      Object returnValue=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">         ((ProceedingJoinPoint) joinPoint).proceed();</span><br><span class="line"></span><br><span class="line">         System.out.println(<span class="string">"执行成功"</span>);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Throwable throwable) &#123;</span><br><span class="line">         throwable.printStackTrace();</span><br><span class="line">      &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">         <span class="keyword">long</span> endTime=System.currentTimeMillis();</span><br><span class="line">         System.out.println(<span class="string">"执行时间:"</span>+(endTime-start));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> returnValue;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@AfterReturning</span>(pointcut = <span class="string">"embed()"</span> ,returning = <span class="string">"returnValue"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterReturning</span><span class="params">(JoinPoint joinPoint,Object returnValue)</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"afterReturning:"</span>+joinPoint+<span class="string">"最后返回:"</span>+returnValue);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@AfterThrowing</span>(pointcut = <span class="string">"embed()"</span> ,throwing = <span class="string">"exception"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterThrowing</span><span class="params">(JoinPoint joinPoint,Exception exception)</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"抛出异常通知:"</span>+joinPoint+exception.getMessage());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeclareParents</span>(value = <span class="string">"site.xixing.controller..*"</span> ,defaultImpl =site.xixing.introduction.impl.LittleUniverseImpl<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">LittleUniverse</span> <span class="title">littleUniverse</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912150612813.png" alt="image-20200912150612813"></p>
+<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @author xixing</span><br><span class="line"> * @version 1.0</span><br><span class="line"> * @date 2020&#x2F;9&#x2F;12 15:54</span><br><span class="line"> *&#x2F;</span><br><span class="line">public interface ToCPayment &#123;</span><br><span class="line"></span><br><span class="line">    void pay();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @author xixing</span><br><span class="line"> * @version 1.0</span><br><span class="line"> * @date 2020&#x2F;9&#x2F;12 16:07</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class ToCPaymentImpl implements ToCPayment &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void pay() &#123;</span><br><span class="line">        System.out.println(&quot;支付！！！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @author xixing</span><br><span class="line"> * @version 1.0</span><br><span class="line"> * @date 2020&#x2F;9&#x2F;12 16:08</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class AlipayToC implements ToCPayment &#123;</span><br><span class="line"></span><br><span class="line">    ToCPayment toCPayment;</span><br><span class="line"></span><br><span class="line">    public AlipayToC(ToCPayment toCPayment)&#123;</span><br><span class="line">        this.toCPayment&#x3D;toCPayment;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void pay() &#123;</span><br><span class="line">        before();</span><br><span class="line">        toCPayment.pay();</span><br><span class="line">        after();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void before() &#123;</span><br><span class="line">        System.out.println(&quot;从银行取款！！！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void after() &#123;</span><br><span class="line">        System.out.println(&quot;转入对应的账户！！！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912161732584.png" alt="image-20200912161732584"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200912161807928.png" alt="image-20200912161807928"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/09/03/RabbitMQ%E9%9B%86%E7%BE%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -308,7 +507,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-02 14:55:48" itemprop="dateModified" datetime="2020-09-02T14:55:48+08:00">2020-09-02</time>
+                <time title="Modified: 2020-09-10 09:48:36" itemprop="dateModified" datetime="2020-09-10T09:48:36+08:00">2020-09-10</time>
               </span>
 
           
@@ -331,7 +530,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>794</span>
+              <span>831</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -368,6 +567,11 @@
 <h3 id="refresh"><a href="#refresh" class="headerlink" title="refresh"></a>refresh</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200831093840471.png" alt="image-20200831093840471"></p>
 <p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200831093858327.png" alt="image-20200831093858327"></p>
 <p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200831093908907.png" alt="image-20200831093908907"></p>
+<h3 id="doGetBean"><a href="#doGetBean" class="headerlink" title="doGetBean"></a>doGetBean</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200906185746755.png" alt="image-20200906185746755"></p>
+<h3 id="createBean"><a href="#createBean" class="headerlink" title="createBean"></a>createBean</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200907110148155.png" alt="image-20200907110148155"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200907110222669.png" alt="image-20200907110222669"></p>
+<h3 id="单例循环依赖"><a href="#单例循环依赖" class="headerlink" title="单例循环依赖"></a>单例循环依赖</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200910085809070.png" alt="image-20200910085809070"></p>
+<h3 id="populateBean"><a href="#populateBean" class="headerlink" title="populateBean"></a>populateBean</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200910091949475.png" alt="image-20200910091949475"></p>
 
       
     </div>
@@ -479,255 +683,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/08/26/Java%E6%B3%A8%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/26/Java%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">Java注解</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-26 08:59:36 / Modified: 09:58:00" itemprop="dateCreated datePublished" datetime="2020-08-26T08:59:36+08:00">2020-08-26</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/08/26/Java%E6%B3%A8%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/26/Java%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>37</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h3><p>注解都是继承java.lang.Annocation</p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826090123564.png" alt="image-20200826090123564"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826090251371.png" alt="image-20200826090251371"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826090335069.png" alt="image-20200826090335069"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826090411890.png" alt="image-20200826090411890"></p>
-<h3 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826091244482.png" alt="image-20200826091244482"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826091317912.png" alt="image-20200826091317912"></p>
-<h3 id="注解原理"><a href="#注解原理" class="headerlink" title="注解原理"></a>注解原理</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826095526764.png" alt="image-20200826095526764"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200826095544061.png" alt="image-20200826095544061"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/08/20/RabbitMQ%E7%9B%B8%E5%85%B3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/20/RabbitMQ%E7%9B%B8%E5%85%B3/" class="post-title-link" itemprop="url">RabbitMQ相关</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-20 11:10:18" itemprop="dateCreated datePublished" datetime="2020-08-20T11:10:18+08:00">2020-08-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-23 16:12:39" itemprop="dateModified" datetime="2020-08-23T16:12:39+08:00">2020-08-23</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/08/20/RabbitMQ%E7%9B%B8%E5%85%B3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/20/RabbitMQ%E7%9B%B8%E5%85%B3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>173</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="AMQP协议"><a href="#AMQP协议" class="headerlink" title="AMQP协议"></a>AMQP协议</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820111109939.png" alt="image-20200820111109939"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113236002.png" alt="image-20200820113236002"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113251309.png" alt="image-20200820113251309"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113328723.png" alt="image-20200820113328723"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113414772.png" alt="image-20200820113414772"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113624752.png" alt="image-20200820113624752"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113743940.png" alt="image-20200820113743940"></p>
-<h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820113816506.png" alt="image-20200820113816506"></p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>docker pull rabbitmq:3.6-management</p>
-<p>docker run -d –name rabbitmq -p 5671:5671 -p 5672:5672 -p 4369:4369 -p 25672:25672 -p 15671:15671 -p 15672:15672 rabbitmq:management</p>
-<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820152414632.png" alt="image-20200820152414632"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820152441529.png" alt="image-20200820152441529"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820152517343.png" alt="image-20200820152517343"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820153034928.png" alt="image-20200820153034928"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820153059569.png" alt="image-20200820153059569"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820153742721.png" alt="image-20200820153742721"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200820153907893.png" alt="image-20200820153907893"></p>
-<h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821152006331.png" alt="image-20200821152006331"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821152346004.png" alt="image-20200821152346004"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821152610288.png" alt="image-20200821152610288"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821153200204.png" alt="image-20200821153200204"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821153443782.png" alt="image-20200821153443782"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821153641974.png" alt="image-20200821153641974"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821154026148.png" alt="image-20200821154026148"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821154044189.png" alt="image-20200821154044189"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821155107618.png" alt="image-20200821155107618"></p>
-<h3 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821173026840.png" alt="image-20200821173026840"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821173258804.png" alt="image-20200821173258804"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821173312217.png" alt="image-20200821173312217"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200821174536016.png" alt="image-20200821174536016"></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823144224435.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823144433279.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823144529454.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823144730349.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823145026417.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823145042310.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823145215535.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823145226844.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823145348414.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153046033.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153103374.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153121337.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153319867.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153330995.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153737667.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823153851601.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823154031884.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823154042360.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823154117050.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823154331433.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823154418442.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823155034287.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823155727235.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823155839755.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823155917257.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823160008228.png" alt=""></p>
-<p><img src="http://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200823160114754.png" alt=""></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -793,7 +753,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -806,7 +766,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -841,13 +801,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">71k</span>
+    <span title="Symbols count total">74k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">1:05</span>
+    <span title="Reading time total">1:08</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>

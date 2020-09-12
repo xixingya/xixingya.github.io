@@ -151,6 +151,248 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/27/JavaOOM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/27/JavaOOM/" class="post-title-link" itemprop="url">JavaOOM</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-27 15:13:10" itemprop="dateCreated datePublished" datetime="2020-07-27T15:13:10+08:00">2020-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-28 08:42:49" itemprop="dateModified" datetime="2020-07-28T08:42:49+08:00">2020-07-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/07/27/JavaOOM/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/27/JavaOOM/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727151343863.png" alt="image-20200727151343863"></p>
+<h3 id="StackOverFlowError"><a href="#StackOverFlowError" class="headerlink" title="StackOverFlowError"></a>StackOverFlowError</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackOverFlowErrorDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        dfs();<span class="comment">//Exception in thread "main" java.lang.StackOverflowError</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">()</span></span>&#123;</span><br><span class="line">        dfs();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最常见在递归中无返回条件一直调用。</p>
+<h3 id="JavaHeapSpace"><a href="#JavaHeapSpace" class="headerlink" title="JavaHeapSpace"></a>JavaHeapSpace</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaHeapSpaceDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String str=<span class="string">"wqoierihfsdkfsdf"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            str+=<span class="keyword">new</span> Random().nextInt(<span class="number">108432432</span>)+<span class="keyword">new</span> Random().nextInt(<span class="number">238923293</span>);</span><br><span class="line">            str.intern();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727152702974.png" alt="image-20200727152702974"></p>
+<h3 id="GC-Overhead-Limited-Exceeded"><a href="#GC-Overhead-Limited-Exceeded" class="headerlink" title="GC Overhead Limited Exceeded"></a>GC Overhead Limited Exceeded</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727153202737.png" alt="image-20200727153202737"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**-Xms10m -Xmx10m -XX:+PrintGCDetails -XX:MaxDirectMemorySize=3m</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/27 15:33</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GCOverheadDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                list.add(String.valueOf(i++).intern());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Throwable e)&#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">"********************"</span>);</span><br><span class="line">            System.out.println(i);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DirectBufferMemory"><a href="#DirectBufferMemory" class="headerlink" title="DirectBufferMemory"></a>DirectBufferMemory</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727155332807.png" alt="image-20200727155332807"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727155352610.png" alt="image-20200727155352610"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/27 15:49</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DirectBufferMemoryDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"配置的本地内存maxDirectMemory:"</span>+sun.misc.VM.maxDirectMemory()/(<span class="keyword">double</span>)<span class="number">1024</span>/<span class="number">1024</span>+<span class="string">"MB"</span>);</span><br><span class="line">        Buffer bb= ByteBuffer.allocateDirect(<span class="number">10</span>*<span class="number">1024</span>*<span class="number">1024</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Unable-to-create-new-native-thread"><a href="#Unable-to-create-new-native-thread" class="headerlink" title="Unable to create new native thread"></a>Unable to create new native thread</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727160305811.png" alt="image-20200727160305811"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/27 16:08</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnableCreateNewThreadDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; ; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"****************"</span>+i);</span><br><span class="line">            <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(Integer.MAX_VALUE);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调整最大线程数</p>
+<p>ulimit -u 查看可以创建的最大线程</p>
+<p>vim /etc/security/limits.d/90-nproc.conf</p>
+<h3 id="Metaspace"><a href="#Metaspace" class="headerlink" title="Metaspace"></a>Metaspace</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727162251944.png" alt="image-20200727162251944"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200727162956731.png" alt="image-20200727162956731"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/26/Java%E5%BC%95%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/26/Java%E5%BC%95%E7%94%A8/" class="post-title-link" itemprop="url">Java引用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-26 15:04:44 / Modified: 16:14:55" itemprop="dateCreated datePublished" datetime="2020-07-26T15:04:44+08:00">2020-07-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/07/26/Java%E5%BC%95%E7%94%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/26/Java%E5%BC%95%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726150541800.png" alt="image-20200726150541800"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Object obj1=<span class="keyword">new</span> Object();</span><br><span class="line">    Object obj2=obj1;</span><br><span class="line">    obj1=<span class="keyword">null</span>;</span><br><span class="line">    System.gc();</span><br><span class="line">    System.out.println(obj2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726152650937.png" alt="image-20200726152650937"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoftReferenceDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 内存够用就不回收，内存不够就回收</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">softRefMemoryEnough</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Object o1=<span class="keyword">new</span> Object();</span><br><span class="line">        SoftReference&lt;Object&gt; softReference=<span class="keyword">new</span> SoftReference&lt;Object&gt;(o1);</span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(softReference.get());</span><br><span class="line">        o1=<span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(softReference.get());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 故意产生oom，new一个大内存数组，设置堆内存大小小一点</span></span><br><span class="line"><span class="comment">     * -Xms5m -Xmx5m</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">softRefMemoryNotEnough</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Object o1=<span class="keyword">new</span> Object();</span><br><span class="line">        SoftReference&lt;Object&gt; softReference=<span class="keyword">new</span> SoftReference&lt;Object&gt;(o1);</span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(softReference.get());</span><br><span class="line">        o1=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] bytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">30</span>*<span class="number">1024</span>*<span class="number">1024</span>];</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span></span><br><span class="line">         &#123;</span><br><span class="line">            System.out.println(o1);</span><br><span class="line">            System.out.println(softReference.get());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//softRefMemoryEnough();</span></span><br><span class="line">        softRefMemoryNotEnough();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726153240887.png" alt="image-20200726153240887"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeekReferenceDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Object o1=<span class="keyword">new</span> Object();</span><br><span class="line">        WeakReference&lt;Object&gt; weakReference=<span class="keyword">new</span> WeakReference&lt;&gt;(o1);</span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(weakReference.get());</span><br><span class="line">        System.out.println(<span class="string">"=================="</span>);</span><br><span class="line">        o1=<span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(weakReference.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="软引用和弱引用英语场景"><a href="#软引用和弱引用英语场景" class="headerlink" title="软引用和弱引用英语场景"></a>软引用和弱引用英语场景</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726153702788.png" alt="image-20200726153702788"></p>
+<h3 id="WeakHashMap"><a href="#WeakHashMap" class="headerlink" title="WeakHashMap"></a>WeakHashMap</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeakHashMapDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        myHashMap();</span><br><span class="line">        System.out.println(<span class="string">"=============================="</span>);</span><br><span class="line">        myWeakHashMap();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">myHashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Map&lt;Integer,String&gt; hashMap=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        Integer a=<span class="keyword">new</span> Integer(<span class="number">1</span>);</span><br><span class="line">        hashMap.put(a,<span class="string">"HashMap"</span>);</span><br><span class="line">        System.out.println(hashMap);</span><br><span class="line"></span><br><span class="line">        a=<span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        System.out.println(hashMap);</span><br><span class="line">        System.out.println(hashMap);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">myWeakHashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Map&lt;Integer,String&gt; hashMap=<span class="keyword">new</span> WeakHashMap&lt;&gt;();</span><br><span class="line">        Integer a=<span class="keyword">new</span> Integer(<span class="number">1</span>);</span><br><span class="line">        hashMap.put(a,<span class="string">"HashMap"</span>);</span><br><span class="line">        System.out.println(hashMap);</span><br><span class="line"></span><br><span class="line">        a=<span class="keyword">null</span>;</span><br><span class="line">        System.out.println(hashMap);</span><br><span class="line">        System.gc();</span><br><span class="line">        System.out.println(hashMap);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726155639718.png" alt="image-20200726155639718"></p>
+<h3 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726155743858.png" alt="image-20200726155743858"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhantomReferenceDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Object o1=<span class="keyword">new</span> Object();</span><br><span class="line">        ReferenceQueue&lt;Object&gt; referenceQueue=<span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">        PhantomReference&lt;Object&gt; phantomReference=<span class="keyword">new</span> PhantomReference&lt;&gt;(o1,referenceQueue);</span><br><span class="line"></span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(phantomReference.get());</span><br><span class="line">        System.out.println(referenceQueue.poll());</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"===================="</span>);</span><br><span class="line">        o1=<span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        Thread.sleep(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(phantomReference.get());</span><br><span class="line">        System.out.println(referenceQueue.poll());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用队列"><a href="#引用队列" class="headerlink" title="引用队列"></a>引用队列</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726161111815.png" alt="image-20200726161111815"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceQueueDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Object o1=<span class="keyword">new</span> Object();</span><br><span class="line">        ReferenceQueue&lt;Object&gt; referenceQueue=<span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">        WeakReference&lt;Object&gt; weakReference=<span class="keyword">new</span> WeakReference&lt;&gt;(o1,referenceQueue);</span><br><span class="line"></span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(weakReference.get());</span><br><span class="line">        System.out.println(referenceQueue.poll());</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"===================="</span>);</span><br><span class="line">        o1=<span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        Thread.sleep(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(o1);</span><br><span class="line">        System.out.println(weakReference.get());</span><br><span class="line">        System.out.println(referenceQueue.poll());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726161334988.png" alt="image-20200726161334988"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/16/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -182,7 +424,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-27 16:17:50" itemprop="dateModified" datetime="2020-07-27T16:17:50+08:00">2020-07-27</time>
+                <time title="Modified: 2020-09-08 12:44:42" itemprop="dateModified" datetime="2020-09-08T12:44:42+08:00">2020-09-08</time>
               </span>
 
           
@@ -205,7 +447,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>937</span>
+              <span>955</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -230,9 +472,10 @@
 <p>这个过程借鉴博客：<a href="https://blog.csdn.net/peizhelun/article/details/104435856/" target="_blank" rel="noopener">https://blog.csdn.net/peizhelun/article/details/104435856/</a></p>
 <p>systemctl enable docker</p>
 <h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>docker pull mysql:5.7</p>
-<p>docker run -d -p 3306:3306 –name mymysql -e MYSQL_ROOT_PASSWORD=123456 d05c76dbbfcf</p>
+<p>docker run -d -p 3306:3306 –name mymysql -e MYSQL_ROOT_PASSWORD=123456 d589ea3123e0</p>
 <h3 id="安装es"><a href="#安装es" class="headerlink" title="安装es"></a>安装es</h3><p>docker pull elasticsearch:6.6.2</p>
 <p>docker run -d –name elasticsearch -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node” 1bca39c5a102</p>
+<p>es的分页从第0页开始，而不是第1页</p>
 <h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><p>wget <code>https://imcfile.oss-cn-beijing.aliyuncs.com/shizhan/file/liaoshixiong/nginx-1.16.1.tar.gz</code></p>
 <p>tar -zxvf  nginx-1.16.1.tar.gz  -C /opt/module</p>
 <p>进入目录下</p>
@@ -540,200 +783,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/11/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/11/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">电商项目笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-11 15:59:03" itemprop="dateCreated datePublished" datetime="2020-07-11T15:59:03+08:00">2020-07-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-16 16:36:55" itemprop="dateModified" datetime="2020-08-16T16:36:55+08:00">2020-08-16</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/07/11/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/11/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.8k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="整合阿里云oss实现文件上传"><a href="#整合阿里云oss实现文件上传" class="headerlink" title="整合阿里云oss实现文件上传"></a>整合阿里云oss实现文件上传</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.xixing.machineprice.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.aliyun.oss.OSS;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.oss.OSSClientBuilder;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.StringEscapeUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartFile;</span><br><span class="line"><span class="keyword">import</span> tech.xixing.machineprice.service.OssService;</span><br><span class="line"><span class="keyword">import</span> tech.xixing.machineprice.utils.RandomString;</span><br><span class="line"><span class="keyword">import</span> tech.xixing.machineprice.vo.ResponseVO;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/11 10:46</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OssServiceImpl</span> <span class="keyword">implements</span> <span class="title">OssService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.accessKeyId&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String ACCESS_KEY_ID;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.accessKeySecret&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String ACCESS_KEY_SECRET;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.endpoint&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String ENDPOINT;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;aliyun.oss.bucketName&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String BUCKETNAME;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseVO&lt;String&gt; <span class="title">uploadFile</span><span class="params">(MultipartFile file)</span> </span>&#123;</span><br><span class="line">        OSS ossClient= <span class="keyword">new</span> OSSClientBuilder().build(ENDPOINT,ACCESS_KEY_ID,ACCESS_KEY_SECRET);</span><br><span class="line">        String originalFilename = file.getOriginalFilename();</span><br><span class="line">        String[] split = originalFilename.split(<span class="string">"\\."</span>);</span><br><span class="line"></span><br><span class="line">        String name = RandomString.getRandomString(<span class="number">15</span>)+<span class="string">"."</span>+split[split.length-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ossClient.putObject(BUCKETNAME,<span class="string">"instrument/"</span>+name,<span class="keyword">new</span> ByteArrayInputStream(file.getBytes()));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        ossClient.shutdown();</span><br><span class="line">        String res = StringEscapeUtils.escapeHtml(<span class="string">"http://"</span>+BUCKETNAME+<span class="string">"."</span>+ENDPOINT+<span class="string">"/instrument/"</span>+name);</span><br><span class="line">        <span class="keyword">return</span> ResponseVO.successByData(res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="对于刚生成的id，如果需要用到的话"><a href="#对于刚生成的id，如果需要用到的话" class="headerlink" title="对于刚生成的id，如果需要用到的话"></a>对于刚生成的id，如果需要用到的话</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertSelective"</span> <span class="attr">parameterType</span>=<span class="string">"tech.xixing.machineprice.pojo.Manufactor"</span> <span class="attr">useGeneratedKeys</span>=<span class="string">"true"</span> <span class="attr">keyProperty</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">  insert into manufactor</span><br><span class="line">  <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"("</span> <span class="attr">suffix</span>=<span class="string">")"</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"id != null"</span>&gt;</span></span><br><span class="line">      id,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"name != null"</span>&gt;</span></span><br><span class="line">      name,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"createTime != null"</span>&gt;</span></span><br><span class="line">      create_time,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"updateTime != null"</span>&gt;</span></span><br><span class="line">      update_time,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sortedOrder != null"</span>&gt;</span></span><br><span class="line">      sorted_order,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"values ("</span> <span class="attr">suffix</span>=<span class="string">")"</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"id != null"</span>&gt;</span></span><br><span class="line">      #&#123;id,jdbcType=INTEGER&#125;,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"name != null"</span>&gt;</span></span><br><span class="line">      #&#123;name,jdbcType=VARCHAR&#125;,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"createTime != null"</span>&gt;</span></span><br><span class="line">      #&#123;createTime,jdbcType=TIMESTAMP&#125;,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"updateTime != null"</span>&gt;</span></span><br><span class="line">      #&#123;updateTime,jdbcType=TIMESTAMP&#125;,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sortedOrder != null"</span>&gt;</span></span><br><span class="line">      #&#123;sortedOrder,jdbcType=INTEGER&#125;,</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>useGeneratedKeys=”true” keyProperty=”id”加上这两句，就可以在原来对象中写入这个id。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/05/mybatis%E4%B8%A4%E7%A7%8D%E5%8A%A8%E6%80%81%E5%BC%95%E7%94%A8%E7%9A%84%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/mybatis%E4%B8%A4%E7%A7%8D%E5%8A%A8%E6%80%81%E5%BC%95%E7%94%A8%E7%9A%84%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">mybatis两种动态引用的的区别</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 14:15:30 / Modified: 14:20:49" itemprop="dateCreated datePublished" datetime="2020-07-05T14:15:30+08:00">2020-07-05</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/07/05/mybatis%E4%B8%A4%E7%A7%8D%E5%8A%A8%E6%80%81%E5%BC%95%E7%94%A8%E7%9A%84%E7%9A%84%E5%8C%BA%E5%88%AB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/05/mybatis%E4%B8%A4%E7%A7%8D%E5%8A%A8%E6%80%81%E5%BC%95%E7%94%A8%E7%9A%84%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>375</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p> #{}使用的是预编译对应JDBC中的PreparedStatement</p>
-<p>${}mybatis不会修改或者转义字符串，直接输出变量值</p>
-<p>使用#{}可以防止sql注入</p>
-<p>使用#{}包裹的语句会加上单引号</p>
-<p>会使得部分语句失效</p>
-<p>如创建mysql表的时候,只能使用${}</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"createByTableName"</span> &gt;</span></span><br><span class="line">    create table $&#123;CreateTable.tableName&#125; (</span><br><span class="line">        id int(11) ,</span><br><span class="line">        <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"CreateTable.tableList"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">item</span>=<span class="string">"item"</span>&gt;</span></span><br><span class="line">            $&#123; item &#125;  varchar(64) ,</span><br><span class="line">        <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">        PRIMARY KEY (id)</span><br><span class="line"></span><br><span class="line">    );</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -799,7 +853,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -812,7 +866,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -847,13 +901,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">71k</span>
+    <span title="Symbols count total">74k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">1:05</span>
+    <span title="Reading time total">1:08</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>
