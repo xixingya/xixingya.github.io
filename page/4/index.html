@@ -424,7 +424,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-08 12:44:42" itemprop="dateModified" datetime="2020-09-08T12:44:42+08:00">2020-09-08</time>
+                <time title="Modified: 2020-09-12 21:38:32" itemprop="dateModified" datetime="2020-09-12T21:38:32+08:00">2020-09-12</time>
               </span>
 
           
@@ -447,7 +447,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>955</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -474,8 +474,12 @@
 <h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>docker pull mysql:5.7</p>
 <p>docker run -d -p 3306:3306 –name mymysql -e MYSQL_ROOT_PASSWORD=123456 d589ea3123e0</p>
 <h3 id="安装es"><a href="#安装es" class="headerlink" title="安装es"></a>安装es</h3><p>docker pull elasticsearch:6.6.2</p>
-<p>docker run -d –name elasticsearch -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node” 1bca39c5a102</p>
+<p>docker run -d –name elasticsearch -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node”   1bca39c5a102</p>
+<p>docker run -d –name elasticsearch -p 9200:9200 -p 9300:9300  -e ES_JAVA_OPTS=”-Xms256m -Xmx256m”  1bca39c5a102</p>
 <p>es的分页从第0页开始，而不是第1页</p>
+<p>es在docker里面的参数修改</p>
+<p>find /var/lib/docker/overlay2/ -name jvm.options</p>
+<p>在找到的路径里改</p>
 <h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><p>wget <code>https://imcfile.oss-cn-beijing.aliyuncs.com/shizhan/file/liaoshixiong/nginx-1.16.1.tar.gz</code></p>
 <p>tar -zxvf  nginx-1.16.1.tar.gz  -C /opt/module</p>
 <p>进入目录下</p>
@@ -901,7 +905,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">74k</span>
+    <span title="Symbols count total">75k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
