@@ -151,6 +151,408 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/16/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/16/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">web服务器的配置笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-16 16:21:57" itemprop="dateCreated datePublished" datetime="2020-07-16T16:21:57+08:00">2020-07-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-24 22:19:29" itemprop="dateModified" datetime="2020-09-24T22:19:29+08:00">2020-09-24</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/07/16/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/16/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="安装docker-Centos-8"><a href="#安装docker-Centos-8" class="headerlink" title="安装docker(Centos 8)"></a>安装docker(Centos 8)</h3><p>yum-config-manager –add-repo <a href="https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo" target="_blank" rel="noopener">https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</a></p>
+<p>yum install -y yum-utils device-mapper-persistent-data lvm2<br>yum install -y containerd.io  </p>
+<p>yum install -y docker-ce –nobest</p>
+<p>这个过程借鉴博客：<a href="https://blog.csdn.net/peizhelun/article/details/104435856/" target="_blank" rel="noopener">https://blog.csdn.net/peizhelun/article/details/104435856/</a></p>
+<p>systemctl enable docker</p>
+<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>docker pull mysql:5.7</p>
+<p>docker run -d -p 3306:3306 –name mymysql -e MYSQL_ROOT_PASSWORD=123456 d589ea3123e0</p>
+<h3 id="安装es"><a href="#安装es" class="headerlink" title="安装es"></a>安装es</h3><p>docker pull elasticsearch:6.6.2</p>
+<p>docker run -d –name elasticsearch -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node”   1bca39c5a102</p>
+<p>docker run -d –name elasticsearch -p 9200:9200 -p 9300:9300  -e ES_JAVA_OPTS=”-Xms256m -Xmx256m”  1bca39c5a102</p>
+<p>es的分页从第0页开始，而不是第1页</p>
+<p>es在docker里面的参数修改</p>
+<p>find /var/lib/docker/overlay2/ -name jvm.options</p>
+<p>在找到的路径里改</p>
+<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><p>docker pull rabbitmq:3.7.7-management</p>
+<p>docker run -d –name rabbitmq3.7.7 -p 5672:5672 -p 15672:15672   –hostname myRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=jx172020 2888deb59dfc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl eval &#39;rabbit_amqqueue:declare(&#123;resource, &lt;&lt;&quot;&#x2F;&quot;&gt;&gt;, queue, &lt;&lt;&quot;payNotify&quot;&gt;&gt;&#125;, true, false, [], none).&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><p>wget <code>https://imcfile.oss-cn-beijing.aliyuncs.com/shizhan/file/liaoshixiong/nginx-1.16.1.tar.gz</code></p>
+<p>tar -zxvf  nginx-1.16.1.tar.gz  -C /opt/module</p>
+<p>进入目录下</p>
+<p>cd /opt/module/nginx-1.16.1</p>
+<p>配置安装目录</p>
+<p>./configure    –prefix=/usr/local/nginx</p>
+<p>yum install -y zlib-devel  openssl   openssl-devel  pcre-devel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">            root   web;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<pre><code>location /admin {
+    alias   admin;
+    index  index.html index.htm;
+}</code></pre><h3 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h3><p>ps   - ef|grep   java</p>
+<p>查看Java进程</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/16/JVM%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/16/JVM%E7%9F%A5%E8%AF%86%E7%82%B9/" class="post-title-link" itemprop="url">JVM知识点</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-16 14:40:40" itemprop="dateCreated datePublished" datetime="2020-07-16T14:40:40+08:00">2020-07-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-26 10:36:42" itemprop="dateModified" datetime="2020-07-26T10:36:42+08:00">2020-07-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/07/16/JVM%E7%9F%A5%E8%AF%86%E7%82%B9/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/16/JVM%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/16 10:52</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 死锁是两个及以上线程在执行过程中抢夺资源造成的现象</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeadLockDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String resourseA=<span class="string">"resourseA"</span>;</span><br><span class="line">        String resourseB=<span class="string">"resourseB"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> HoldLockThread(resourseA,resourseB),<span class="string">"ThreadA"</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> HoldLockThread(resourseB,resourseA),<span class="string">"ThreadB"</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * linux ps -ef|grep xxx   ls -l</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * windows下也有类型ps的查看进程命令，但是只要看java进程</span></span><br><span class="line"><span class="comment">         * 可以用 jps =java ps      jps -l</span></span><br><span class="line"><span class="comment">         * jstack 28087</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HoldLockThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String resourseA;</span><br><span class="line">    <span class="keyword">private</span> String resourseB;</span><br><span class="line">    Lock lock=<span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HoldLockThread</span><span class="params">(String resourseA, String resourseB)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.resourseA = resourseA;</span><br><span class="line">        <span class="keyword">this</span>.resourseB = resourseB;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (resourseA)&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">"\t 自己持有"</span>+resourseA+<span class="string">"尝试获得\t"</span>+resourseB);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">synchronized</span> (resourseB)&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JVM体系结构"><a href="#JVM体系结构" class="headerlink" title="JVM体系结构"></a>JVM体系结构</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716150240537.png" alt="image-20200716150240537"></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716150805511.png" alt="image-20200716150805511"></p>
+<h3 id="标记回收算法"><a href="#标记回收算法" class="headerlink" title="标记回收算法"></a>标记回收算法</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716150938448.png" alt="image-20200716150938448"></p>
+<h3 id="标记-压缩算法"><a href="#标记-压缩算法" class="headerlink" title="标记-压缩算法"></a>标记-压缩算法</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716151050963.png" alt="image-20200716151050963"></p>
+<h3 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716154615745.png" alt="image-20200716154615745"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716155613501.png" alt="image-20200716155613501"></p>
+<h4 id="Boolean类型"><a href="#Boolean类型" class="headerlink" title="Boolean类型"></a>Boolean类型</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716155853350.png" alt="image-20200716155853350"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716191714321.png" alt="image-20200716191714321"></p>
+<p>example:</p>
+<p>​                -XX:+PrintGCDetails</p>
+<h4 id="KV设值类型"><a href="#KV设值类型" class="headerlink" title="KV设值类型"></a>KV设值类型</h4><p>MetaspaceSize是元空间大小</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716192613458.png" alt="image-20200716192613458"></p>
+<p>MaxTenuringThreshold是多少次之后就是老年期</p>
+<h4 id="jinfo"><a href="#jinfo" class="headerlink" title="jinfo"></a>jinfo</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716193154444.png" alt="image-20200716193154444"></p>
+<p>jinfo -flags 5678</p>
+<p>可以把5678这个进程号的全部参数打印</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716193603868.png" alt="image-20200716193603868"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716193825356.png" alt="image-20200716193825356"></p>
+<h4 id="查看JVM初始家底"><a href="#查看JVM初始家底" class="headerlink" title="查看JVM初始家底"></a>查看JVM初始家底</h4><p>java -XX:+PrintFlagsInitial</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716194747078.png" alt="image-20200716194747078"></p>
+<p>java -XX:+PrintFlagsFinal     =代表默认    :=代表修改后的值</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716200329963.png" alt="image-20200716200329963"></p>
+<p>-Xms 启动时最小内存</p>
+<p>-Xmx 最大内存</p>
+<p>-Xss 单个线程最大栈空间</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726093142620.png" alt="image-20200726093142620"></p>
+<p>为0则为默认值，在不同系统，默认值不一样，在linux，os x，unix的64位系统中为1024k，在windows则取决于你的虚拟内存大小。</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726093318262.png" alt="image-20200726093318262"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726094950180.png" alt="image-20200726094950180"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726095356376.png" alt="image-20200726095356376"></p>
+<p>-XX:+PrintGCDetails  -XX:MetaspaceSize=128m  -XX:SurvivorRatio=4  -XX:NewRatio=4</p>
+<h4 id="XX-PrintGCDetails"><a href="#XX-PrintGCDetails" class="headerlink" title="-XX:+PrintGCDetails"></a>-XX:+PrintGCDetails</h4><p>查看gc详情</p>
+<p>GC在青春期，FullGC在养老区</p>
+<p>[GC (Allocation Failure) [PSYoungGen: 1752K-&gt;488K(2560K)] 1752K-&gt;664K(9728K), 0.0018961 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]<br>[GC (Allocation Failure) [PSYoungGen: 488K-&gt;496K(2560K)] 664K-&gt;716K(9728K), 0.0015663 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]<br>[Full GC (Allocation Failure) [PSYoungGen: 496K-&gt;0K(2560K)] [ParOldGen: 220K-&gt;629K(7168K)] 716K-&gt;629K(9728K), [Metaspace: 3216K-&gt;3216K(1056768K)], 0.0066899 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]<br>[GC (Allocation Failure) [PSYoungGen: 0K-&gt;0K(2560K)] 629K-&gt;629K(9728K), 0.0004493 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]<br>[Full GC (Allocation Failure) [PSYoungGen: 0K-&gt;0K(2560K)] [ParOldGen: 629K-&gt;611K(7168K)] 629K-&gt;611K(9728K), [Metaspace: 3216K-&gt;3216K(1056768K)], 0.0068001 secs] [Times: user=0.00 sys=0.00, real=0.01 secs]<br>Exception in thread “main” java.lang.OutOfMemoryError: Java heap space<br>    at tech.xixing.jvm.HelloGC.main(HelloGC.java:15)<br>Heap<br> PSYoungGen      total 2560K, used 57K [0x00000000ffd00000, 0x0000000100000000, 0x0000000100000000)<br>  eden space 2048K, 2% used [0x00000000ffd00000,0x00000000ffd0e588,0x00000000fff00000)<br>  from space 512K, 0% used [0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)<br>  to   space 512K, 0% used [0x00000000fff80000,0x00000000fff80000,0x0000000100000000)<br> ParOldGen       total 7168K, used 611K [0x00000000ff600000, 0x00000000ffd00000, 0x00000000ffd00000)<br>  object space 7168K, 8% used [0x00000000ff600000,0x00000000ff698f48,0x00000000ffd00000)<br> Metaspace       used 3247K, capacity 4496K, committed 4864K, reserved 1056768K<br>  class space    used 353K, capacity 388K, committed 512K, reserved 1048576K</p>
+<p>Process finished with exit code 1</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726100432380.png" alt="image-20200726100432380"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726100811177.png" alt="image-20200726100811177"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726100841373.png" alt="image-20200726100841373"></p>
+<h4 id="XX-SurvivorRatio"><a href="#XX-SurvivorRatio" class="headerlink" title="-XX:SurvivorRatio"></a>-XX:SurvivorRatio</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726101245549.png" alt="image-20200726101245549"></p>
+<p>默认XX:SurvivorRatio=8</p>
+<p>eden space 53248K, 8% used [0x0000000780980000,0x0000000780dab0f0,0x0000000783d80000)<br>  from space 6144K, 0% used [0x0000000784380000,0x0000000784380000,0x0000000784980000)<br>  to   space 6144K, 0% used [0x0000000783d80000,0x0000000783d80000,0x0000000784380000)</p>
+<p>XX:SurvivorRatio=4</p>
+<p> PSYoungGen      total 54784K, used 4404K [0x0000000780980000, 0x0000000784980000, 0x00000007c0000000)<br>  eden space 44032K, 10% used [0x0000000780980000,0x0000000780dcd328,0x0000000783480000)<br>  from space 10752K, 0% used [0x0000000783f00000,0x0000000783f00000,0x0000000784980000)<br>  to   space 10752K, 0% used [0x0000000783480000,0x0000000783480000,0x0000000783f00000)</p>
+<h4 id="XX-NewRatio"><a href="#XX-NewRatio" class="headerlink" title="-XX:NewRatio"></a>-XX:NewRatio</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726102239095.png" alt="image-20200726102239095"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726102133054.png" alt="image-20200726102133054"></p>
+<p>Heap<br> PSYoungGen      total 54784K, used 4404K [0x0000000780980000, 0x0000000784980000, 0x00000007c0000000)<br>  eden space 44032K, 10% used [0x0000000780980000,0x0000000780dcd328,0x0000000783480000)<br>  from space 10752K, 0% used [0x0000000783f00000,0x0000000783f00000,0x0000000784980000)<br>  to   space 10752K, 0% used [0x0000000783480000,0x0000000783480000,0x0000000783f00000)<br> ParOldGen       total 131072K, used 0K [0x0000000701c00000, 0x0000000709c00000, 0x0000000780980000)<br>  object space 131072K, 0% used [0x0000000701c00000,0x0000000701c00000,0x0000000709c00000)<br> Metaspace       used 3222K, capacity 4496K, committed 4864K, reserved 1056768K<br>  class space    used 350K, capacity 388K, committed 512K, reserved 1048576K</p>
+<p>新生代和老年代分别为54784K和131072K符合1：2</p>
+<h4 id="XX-MaxTenuringThreshold"><a href="#XX-MaxTenuringThreshold" class="headerlink" title="-XX:MaxTenuringThreshold"></a>-XX:MaxTenuringThreshold</h4><p>进入养老区的次数</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726103133188.png" alt="image-20200726103133188"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726103058024.png" alt="image-20200726103058024"></p>
+<p>数值必须在0-15之间</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726103345729.png" alt="image-20200726103345729"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726103449775.png" alt="image-20200726103449775"></p>
+<h4 id="常用jvm参数"><a href="#常用jvm参数" class="headerlink" title="常用jvm参数"></a>常用jvm参数</h4><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200726103552176.png" alt="image-20200726103552176"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixing">
+      <meta itemprop="description" content="Mind and Hand">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixing's blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="post-title-link" itemprop="url">线程池</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-15 19:17:28" itemprop="dateCreated datePublished" datetime="2020-07-15T19:17:28+08:00">2020-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-16 11:18:05" itemprop="dateModified" datetime="2020-07-16T11:18:05+08:00">2020-07-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/07/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>854</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200715191843710.png" alt="image-20200715191843710"></p>
+<h3 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</span><br><span class="line">            (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                    <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                    <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">                                      <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                              TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                              RejectedExecutionHandler handler)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200715203802156.png" alt="image-20200715203802156"></p>
+<h3 id="线程池底层工作原理"><a href="#线程池底层工作原理" class="headerlink" title="线程池底层工作原理"></a>线程池底层工作原理</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200715204145068.png" alt="image-20200715204145068"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200715204741765.png" alt="image-20200715204741765"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200715205055954.png" alt="image-20200715205055954"></p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200715205330067.png" alt="image-20200715205330067"></p>
+<h3 id="CPU密集型配线程数"><a href="#CPU密集型配线程数" class="headerlink" title="CPU密集型配线程数"></a>CPU密集型配线程数</h3><p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716104045232.png" alt="image-20200716104045232"></p>
+<h3 id="IO密集型配线程数"><a href="#IO密集型配线程数" class="headerlink" title="IO密集型配线程数"></a>IO密集型配线程数</h3><p>1.尽可能配多线程，比如说CPU核数*2</p>
+<p>2.</p>
+<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200716104500443.png" alt="image-20200716104500443"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/11/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -336,323 +738,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/03/synchronized%E5%92%8Clock%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/03/synchronized%E5%92%8Clock%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">synchronized和lock的区别</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-03 20:15:26 / Modified: 20:53:28" itemprop="dateCreated datePublished" datetime="2020-07-03T20:15:26+08:00">2020-07-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/07/03/synchronized%E5%92%8Clock%E7%9A%84%E5%8C%BA%E5%88%AB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/03/synchronized%E5%92%8Clock%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>616</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.synchronized属于jvm层面的，属于java关键字，Lock是属于api层</p>
-<p>底层汇编中synchronized由</p>
-<p>monitorenter(底层是通过monitor对象来完成，其实wait/notify等方法也依赖monitor对象，只有在同步块或方法中才可以调用wait/notify等方法)</p>
-<p>monitorexit两部分构成</p>
-<p>Lock是具体类(java.util.concurrent.locks.Lock)是api层面的锁</p>
-<p>2.使用方法</p>
-<p>​    synchronized不需要用户手动释放锁，当synchronized代码执行完系统会自动让线程释放对锁的占用</p>
-<p>​    ReentrantLock则需要用户去手动释放锁若没有主动释放锁，就有可能导致出现死锁现象。</p>
-<p>3.等待是否可中断</p>
-<p>​    synchronized不可中断，除非抛出异常或者正常运行完成</p>
-<p>​    ReentrantLock可中断</p>
-<p>​        1.设置超时方法tryLock(long timeout,TimeUnit unit)</p>
-<p>​        2.lockInterruptibly()放代码块中，调用interrupt()方法</p>
-<p>4.加锁是否公平</p>
-<p>​    synchronized非公平锁</p>
-<p>​    ReentrantLock两者都行</p>
-<p>5.锁绑定多个条件condition</p>
-<p>​    synchronized没有</p>
-<p>​    ReentrantLock用来实现分组唤醒需要唤醒的线程们，可以精确唤醒，而不是像synchronized要么唤醒随机一个，要么唤醒全部。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/03/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/03/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">阻塞队列</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-03 17:10:24 / Modified: 20:14:39" itemprop="dateCreated datePublished" datetime="2020-07-03T17:10:24+08:00">2020-07-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/07/03/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/03/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200703171101618.png" alt="image-20200703171101618"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200703171521954.png" alt="image-20200703171521954"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200703172044131.png" alt="image-20200703172044131"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200703191752807.png" alt="image-20200703191752807"></p>
-<p><img src="https://picture-myblog.oss-cn-shenzhen.aliyuncs.com/myblog/image-20200703193418603.png" alt="image-20200703193418603"></p>
-<h3 id="生产者消费者模式传统版"><a href="#生产者消费者模式传统版" class="headerlink" title="生产者消费者模式传统版"></a>生产者消费者模式传统版</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xixing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/7/3 19:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProdConsumeTranditionalDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        ShareData shareData=<span class="keyword">new</span> ShareData();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">                shareData.increment();</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">"\t 生产成功！"</span>);</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">                shareData.decrement();</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">"\t 消费成功！"</span>);</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShareData</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer num=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> Lock lock=<span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> Condition condition=lock.newCondition();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">increment</span><span class="params">()</span></span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (num!=<span class="number">0</span>)&#123;<span class="comment">//不能用if，防止虚假唤醒</span></span><br><span class="line">                condition.await();</span><br><span class="line">            &#125;</span><br><span class="line">            num++;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">"\t"</span>+num);</span><br><span class="line">            condition.signalAll();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">decrement</span><span class="params">()</span></span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (num==<span class="number">0</span>)&#123;</span><br><span class="line">                condition.await();</span><br><span class="line">            &#125;</span><br><span class="line">            num--;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">"\t"</span>+num);</span><br><span class="line">            condition.signalAll();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ljwkyanm.xyz/2020/07/03/java%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xixing">
-      <meta itemprop="description" content="Mind and Hand">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xixing's blogs">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/03/java%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">java移位操作</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-03 10:50:19 / Modified: 11:28:54" itemprop="dateCreated datePublished" datetime="2020-07-03T10:50:19+08:00">2020-07-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2020/07/03/java%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/03/java%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>60</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Java右移操作，&lt;&lt;是有符号右移，如果是负数最左边补1</p>
-<p>&lt;&lt;&lt;是无符号右移，最左边默认补0</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -723,20 +808,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
